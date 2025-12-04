@@ -13,5 +13,8 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
     List<Person> findByFirstNameAndLastName(String firstName, String lastName);
 
+    boolean existsByEmailAddressIgnoreCase(final String emailAddress);
+
+    boolean existsByMobilePhoneNumber(final String mobilePhoneNumber);
 }
 

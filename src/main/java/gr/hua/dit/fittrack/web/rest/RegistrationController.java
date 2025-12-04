@@ -41,23 +41,17 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String handleFormSubmission(@ModelAttribute("person") Person person) {
-        // TODO if form has errors, show form + errors
-        // TODO if form is okay, store person, redirect.
 
         final String emailAddress = person.getEmailAddress();
         final String mobilePhoneNumber = person.getMobilePhoneNumber();
         final Long id = person.getId();
 
         if (this.personRepository.existsByEmailAddressIgnoreCase(emailAddress)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "email address already exists!");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email address already exists!");
         }
 
         if (this.personRepository.existsByMobilePhoneNumber(mobilePhoneNumber)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "mobile phone number already exists");
-        }
-
-        if (this.personRepository.existsByHuaId(huaId)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "HUA ID already exists");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Mobile phone number already exists!");
         }
 
         person = this.personRepository.save(person);
