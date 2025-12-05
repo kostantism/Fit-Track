@@ -1,4 +1,4 @@
-package gr.hua.dit.fittrack.web.rest;
+package gr.hua.dit.fittrack.web.ui;
 
 import gr.hua.dit.fittrack.core.model.Person;
 import gr.hua.dit.fittrack.core.model.PersonType;
