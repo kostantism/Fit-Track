@@ -1,4 +1,0 @@
-package gr.hua.dit.fittrack.core.service.impl;
-
-public class PersonServiceImpl {
-}

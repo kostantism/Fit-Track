@@ -6,6 +6,6 @@ import gr.hua.dit.fittrack.core.service.model.CreatePersonResult;
 /**
  * Service for managing {@link gr.hua.dit.fittrack.core.model.Person}.
  */
-public interface PersonService {
+public interface PersonBusinessLogicService {
     CreatePersonResult createPerson(final CreatePersonRequest createPersonRequest);
 }
