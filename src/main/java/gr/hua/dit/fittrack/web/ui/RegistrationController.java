@@ -4,6 +4,10 @@ import gr.hua.dit.fittrack.core.model.Person;
 import gr.hua.dit.fittrack.core.model.PersonType;
 import gr.hua.dit.fittrack.core.repository.PersonRepository;
 
+import gr.hua.dit.fittrack.core.service.PersonBusinessLogicService;
+import gr.hua.dit.fittrack.core.service.model.CreatePersonRequest;
+import gr.hua.dit.fittrack.core.service.model.CreatePersonResult;
+import gr.hua.dit.fittrack.core.service.model.PersonView;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,44 +22,43 @@ import org.springframework.web.server.ResponseStatusException;
 @Controller
 public class RegistrationController {
 
-    private final PersonRepository personRepository;
+    private final PersonBusinessLogicService personBusinessLogicService;
 
-    public RegistrationController(final PersonRepository personRepository) {
-        if (personRepository == null) throw new NullPointerException();
-        this.personRepository = personRepository;
+    public RegistrationController(final PersonBusinessLogicService personBusinessLogicService) {
+        if (personBusinessLogicService == null) throw new NullPointerException();
+        this.personBusinessLogicService = personBusinessLogicService;
     }
 
     @GetMapping("/register")
     public String showRegistrationForm(final Model model) {
         // todo if user is auth, redirect to default view.
-        final Person person = new Person(
-                null,
-                "", "",
-                "", "",
+        final CreatePersonRequest createPersonRequest = new CreatePersonRequest(
                 PersonType.CUSTOMER,
-                null
+                "",
+                "",
+                "",
+                "",
+                ""
         );
-        model.addAttribute("person", person);
-        return "register"; // loads register.html
+        model.addAttribute("createPersonRequest", createPersonRequest);
+        return "register";
     }
 
     @PostMapping("/register")
-    public String handleFormSubmission(@ModelAttribute("person") Person person) {
+    public String handleFormSubmission(@ModelAttribute("createPersonRequest") CreatePersonRequest createPersonRequest,
+                                       final Model model) {
 
-        final String emailAddress = person.getEmailAddress();
-        final String mobilePhoneNumber = person.getMobilePhoneNumber();
-        final Long id = person.getId();
+        // TODO if user is authenticated, redirect to tickets
+        // TODO Validate form (email format, size, blank, etc)
+        // TODO if form has errors, show the form (with pre-filled data)
+        // TODO otherwise, persist person, then, redirect to login
 
-        if (this.personRepository.existsByEmailAddressIgnoreCase(emailAddress)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email address already exists!");
+        final CreatePersonResult createPersonResult = this.personBusinessLogicService.createPerson(createPersonRequest);
+        if(createPersonResult.created()) {
+            return "redirect:/login";
         }
-
-        if (this.personRepository.existsByMobilePhoneNumber(mobilePhoneNumber)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Mobile phone number already exists!");
-        }
-
-        person = this.personRepository.save(person);
-        System.out.println(person.toString());
+        model.addAttribute("createPersonResult", createPersonResult);
+        model.addAttribute("errorMessage", createPersonResult.reason());
         return "register";
     }
 }
