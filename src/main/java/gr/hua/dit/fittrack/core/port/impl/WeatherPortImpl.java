@@ -64,8 +64,8 @@ public class WeatherPortImpl implements WeatherPort {
         // -------------------------------------------------------------
         return new WeatherInfo(
                 body.city().name(),
-                bestMatch.weatherData().temp(),
-                bestMatch.weatherData().humidity(),
+                bestMatch.main().temp(),
+                bestMatch.main().humidity(),
                 bestMatch.weather().get(0).description()
         );
     }

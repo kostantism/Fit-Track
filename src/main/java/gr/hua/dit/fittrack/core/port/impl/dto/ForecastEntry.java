@@ -4,7 +4,7 @@ import java.util.List;
 
 public record ForecastEntry(
         long dt,
-        WeatherData weatherData,
+        WeatherData main,
         List<WeatherDescription> weather
 ) {
     public java.time.LocalDateTime dtAsLocalDateTime() {
