@@ -9,7 +9,7 @@ public class RestApiClientConfig {
 
     // @future Get me from application properties!
     public static final String WEATHER_BASE_URL = "https://api.openweathermap.org";
-    public static final String WEATHER_API_KEY = "f82d7117efd3bba210d05fedbe8f9300";
+    public static final String WEATHER_API_KEY = "api key";
 
     @Bean
     public RestTemplate restTemplate() {
