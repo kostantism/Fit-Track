@@ -57,7 +57,6 @@ public class PersonBusinessLogicServiceImpl implements PersonBusinessLogicServic
         person.setPasswordHash(hashedPassword);
         person.setCreatedAt(null); // auto generated
 
-
         if(this.personRepository.existsByEmailAddressIgnoreCase(emailAddress)){
             return CreatePersonResult.fail("Email address already exists!");
         }
