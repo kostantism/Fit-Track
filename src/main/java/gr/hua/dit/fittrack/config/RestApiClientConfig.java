@@ -11,6 +11,8 @@ public class RestApiClientConfig {
     public static final String WEATHER_BASE_URL = "https://api.openweathermap.org";
     public static final String WEATHER_API_KEY = "api key";
 
+    public static final String SMS_BASE_URL = "http://localhost:8081";
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
