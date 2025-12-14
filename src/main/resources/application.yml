@@ -15,3 +15,12 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.H2Dialect
       hibernate.format_sql: trues
+
+
+  # Custom Application Properties
+app:
+  jwt:
+    issuer: "fit-track-api"
+    audience: "fit-track-clients"
+    secret: "${JWT_SECRET:+U4BixW9hDLYU5WOC+3OvutSpIrYVcF/QkDcJ4zq5sM=}" # openssl rand -base64 32
+    ttl-minutes: 60
