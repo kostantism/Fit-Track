@@ -1,9 +1,7 @@
 package gr.hua.dit.fittrack.core.security;
 
-import gr.hua.dit.fittrack.core.model.User;
-import gr.hua.dit.fittrack.core.repository.UserRepository;
-import gr.hua.dit.fittrack.core.security.AuthService;
-import gr.hua.dit.fittrack.core.security.AuthUser;
+import gr.hua.dit.fittrack.core.model.Person;
+import gr.hua.dit.fittrack.core.repository.PersonRepository;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,35 +12,35 @@ import java.util.Set;
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    private final UserRepository userRepository;
+    private final PersonRepository personRepository;
     private final PasswordEncoder passwordEncoder;
 
     public AuthServiceImpl(
-            final UserRepository userRepository,
+            final PersonRepository personRepository,
             final PasswordEncoder passwordEncoder
     ) {
-        if (userRepository == null) throw new NullPointerException();
+        if (personRepository == null) throw new NullPointerException();
         if (passwordEncoder == null) throw new NullPointerException();
 
-        this.userRepository = userRepository;
+        this.personRepository = personRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public Optional<AuthUser> authenticate(final String username, final String password) {
-        if (username == null || username.isBlank()) throw new IllegalArgumentException();
+    public Optional<AuthUser> authenticate(final String email, final String password) {
+        if (email == null || email.isBlank()) throw new IllegalArgumentException();
         if (password == null || password.isBlank()) throw new IllegalArgumentException();
 
-        return userRepository.findByUsername(username)
-                .filter(user -> passwordEncoder.matches(password, user.getPassword()))
+        return personRepository.findByEmailAddressIgnoreCase(email)
+                .filter(person -> passwordEncoder.matches(password, person.getPasswordHash()))
                 .map(this::toAuthUser);
     }
 
-    private AuthUser toAuthUser(final User user) {
+    private AuthUser toAuthUser(final Person person) {
         return new AuthUser(
-                user.getId(),
-                user.getUsername(),
-                Set.of(user.getRole().name())
+                person.getId(),
+                person.getEmailAddress(),
+                Set.of(person.getType().name())
         );
     }
 }
