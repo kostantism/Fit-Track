@@ -9,6 +9,6 @@ import jakarta.validation.constraints.NotNull;
  * @see AuthResource
  */
 public record LoginRequest(
-        @NotNull @NotBlank String username,
+        @NotNull @NotBlank String email,
         @NotNull @NotBlank String password
 ) {}
