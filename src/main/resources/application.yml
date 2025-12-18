@@ -16,6 +16,11 @@ spring:
       hibernate.dialect: org.hibernate.dialect.H2Dialect
       hibernate.format_sql: trues
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
 
   # Custom Application Properties
 app:
