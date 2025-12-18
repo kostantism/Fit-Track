@@ -38,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
 
     private AuthUser toAuthUser(final Person person) {
         return new AuthUser(
-                person.getId(),
+                person.getId().toString(),
                 person.getEmailAddress(),
                 Set.of(person.getType().name())
         );

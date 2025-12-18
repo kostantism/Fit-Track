@@ -52,4 +52,5 @@ public class AuthResource {
         return new LoginResponse(token, "Bearer", 60 * 60 // seconds (1h) – keep in sync with jwt ttl
         );
     }
+
 }

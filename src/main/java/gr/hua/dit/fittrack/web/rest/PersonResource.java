@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing {@code Person} resource.
+ */
 @RestController
 @RequestMapping(value = "/api/v1/person", produces = MediaType.APPLICATION_JSON_VALUE)
 public class PersonResource {

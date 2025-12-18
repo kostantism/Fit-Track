@@ -30,9 +30,10 @@ public class PersonDataServiceImpl implements PersonDataService {
     @Override
     public List<PersonView> getAllPeople() {
         final List<Person> personList = this.personRepository.findAll();
-        return personList
+        final List<PersonView> personViewList = personList
                 .stream()
                 .map(this.personMapper::convertPersonToPersonView)
                 .toList();
+        return personViewList;
     }
 }
