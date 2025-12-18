@@ -26,7 +26,7 @@ public class PersonResource {
     /**
      * Secured REST endpoint (JWT required)
      */
-    @PreAuthorize("hasRole('USER') or hasRole('TRAINER')")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('TRAINER')")
     @GetMapping
     public List<PersonView> getAll() {
         return personDataService.getAllPeople();
