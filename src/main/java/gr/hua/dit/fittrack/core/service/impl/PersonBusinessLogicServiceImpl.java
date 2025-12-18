@@ -8,6 +8,7 @@ import gr.hua.dit.fittrack.core.service.mapper.PersonMapper;
 import gr.hua.dit.fittrack.core.service.model.CreatePersonRequest;
 import gr.hua.dit.fittrack.core.service.model.CreatePersonResult;
 import gr.hua.dit.fittrack.core.service.model.PersonView;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,15 +16,19 @@ public class PersonBusinessLogicServiceImpl implements PersonBusinessLogicServic
 
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public PersonBusinessLogicServiceImpl(final PersonRepository personRepository,
-                                          final PersonMapper personMapper) {
+                                          final PersonMapper personMapper,
+                                          final PasswordEncoder passwordEncoder) {
 
         if (personRepository == null) throw new NullPointerException();
         if(personMapper == null) throw new NullPointerException();
+        if (passwordEncoder == null) throw new NullPointerException();
 
         this.personRepository = personRepository;
         this.personMapper = personMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -44,7 +49,7 @@ public class PersonBusinessLogicServiceImpl implements PersonBusinessLogicServic
 
 
         //TODO encode password! raw to hash
-        final String hashedPassword = rawPassword; //TODO Encode!
+        final String hashedPassword = passwordEncoder.encode(rawPassword);
 
 
         Person person = new Person();

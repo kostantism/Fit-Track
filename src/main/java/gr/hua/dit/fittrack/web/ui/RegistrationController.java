@@ -1,20 +1,18 @@
 package gr.hua.dit.fittrack.web.ui;
 
-import gr.hua.dit.fittrack.core.model.Person;
 import gr.hua.dit.fittrack.core.model.PersonType;
-import gr.hua.dit.fittrack.core.repository.PersonRepository;
-
 import gr.hua.dit.fittrack.core.service.PersonBusinessLogicService;
 import gr.hua.dit.fittrack.core.service.model.CreatePersonRequest;
 import gr.hua.dit.fittrack.core.service.model.CreatePersonResult;
-import gr.hua.dit.fittrack.core.service.model.PersonView;
-import org.springframework.http.HttpStatus;
+
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.core.Authentication;
 
 /**
  * UI controller for managing customer/trainer registration.
@@ -30,8 +28,14 @@ public class RegistrationController {
     }
 
     @GetMapping("/register")
-    public String showRegistrationForm(final Model model) {
-        // todo if user is auth, redirect to default view.
+    public String showRegistrationForm(
+        final Authentication authentication,
+        final Model model) {
+
+        if (AuthUtils.isAuthenticated(authentication)) {
+            return "redirect:/profile";
+        }
+
         final CreatePersonRequest createPersonRequest = new CreatePersonRequest(
                 PersonType.CUSTOMER,
                 "",
@@ -45,17 +49,23 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public String handleFormSubmission(@ModelAttribute("createPersonRequest") CreatePersonRequest createPersonRequest,
-                                       final Model model) {
+    public String handleFormSubmission(
+        final Authentication authentication,
+        @Valid @ModelAttribute("createPersonRequest") CreatePersonRequest createPersonRequest,
+        final BindingResult bindingResult, // IMPORTANT: BindingResult **MUST** come immediately after the @Valid argument!
+        final Model model) {
 
-        // TODO if user is authenticated, redirect to tickets
-        // TODO Validate form (email format, size, blank, etc)
-        // TODO if form has errors, show the form (with pre-filled data)
-        // TODO otherwise, persist person, then, redirect to login
+        if (AuthUtils.isAuthenticated(authentication)) {
+            return "redirect:/profile"; // already logged in.
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "register";
+        }
 
         final CreatePersonResult createPersonResult = this.personBusinessLogicService.createPerson(createPersonRequest);
         if(createPersonResult.created()) {
-            return "redirect:/login";
+            return "redirect:/login"; // registration successful
         }
         model.addAttribute("createPersonResult", createPersonResult);
         model.addAttribute("errorMessage", createPersonResult.reason());
