@@ -1,52 +1,78 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" lang="en" dir="ltr">
+<html
+        xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base}">
 <head>
-    <meta charset="UTF-8" />
     <title>Registration</title>
 </head>
 <body>
 
-<h2>Registration</h2>
+<header layout:fragment="header">
+    <h1>Fit Track <small>/ Registration</small></h1>
+</header>
 
-<form th:action="@{/register}" method="post" th:object="${createPersonRequest}">
+<section layout:fragment="main">
 
-    <div th:if="${errorMessage != null}" >
-        <p th:text="${errorMessage}" style="color: red"></p>
-    </div>
+    <!-- REGISTRATION FORM -->
+    <form th:action="@{/register}" method="post" th:object="${createPersonRequest}">
 
-    <label>Register as:</label>
-    <select name="type" th:field="*{type}">
-        <option value="CUSTOMER">Customer</option>
-        <option value="TRAINER">Trainer</option>
-    </select>
-    <br/>
+        <!-- ERROR MESSAGE -->
+        <div class="text-center mb-3" th:if="${errorMessage != null}">
+            <p class="text-danger m-0 p-0" th:text="${errorMessage}"></p>
+        </div>
 
-    <label>First Name:</label>
-    <input type="text" name="firstName" th:field="*{firstName}" />
-    <br/>
 
-    <label>Last Name:</label>
-    <input type="text" name="lastName" th:field="*{lastName}" />
-    <br/>
+        <div class="mb-3">
+            <label class="form-label">Register as:</label>
+            <select name="type" th:field="*{type}" class="form-select">
+                <option value="CUSTOMER">Customer</option>
+                <option value="TRAINER">Trainer</option>
+            </select>
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></div>
+        </div>
 
-    <label>Email Address:</label>
-    <input type="email" name="emailAddress" th:field="*{emailAddress}" />
-    <br/>
 
-    <label>Mobile Phone Number:</label>
-    <input type="text" name="mobilePhoneNumber" th:field="*{mobilePhoneNumber}" />
-    <br/>
+        <div class="mb-3">
+            <label class="form-label">First Name:</label>
+            <input type="text" name="firstName" th:field="*{firstName}" class="form-control" required />
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+        </div>
 
-    <label>Password:</label>
-    <input type="password" name="rawPassword" th:field="*{rawPassword}" />
-    <br/>
 
-    <button type="submit">Submit</button>
-</form>
+        <div class="mb-3">
+            <label class="form-label">Last Name:</label>
+            <input type="text" name="lastName" th:field="*{lastName}" class="form-control" required />
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+        </div>
 
-<p>
-    <a th:href="@{/login}">Already have an account? Sign in</a>
-</p>
+        <div class="mb-3">
+            <label class="form-label">Email Address:</label>
+            <input type="email" name="emailAddress" th:field="*{emailAddress}" class="form-control" required />
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('emailAddress')}" th:errors="*{emailAddress}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Mobile Phone Number:</label>
+            <input type="tel" name="mobilePhoneNumber" th:field="*{mobilePhoneNumber}" class="form-control" required />
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('mobilePhoneNumber')}" th:errors="*{mobilePhoneNumber}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Password:</label>
+            <input type="password" name="rawPassword" th:field="*{rawPassword}" class="form-control" required />
+            <div class="text-danger small mt-1" th:if="${#fields.hasErrors('rawPassword')}" th:errors="*{rawPassword}"></div>
+        </div>
+
+        <div class="mb-4">
+            <button type="submit" class="btn btn-primary">Log in</button>
+        </div>
+
+        <!-- USEFUL LINKS -->
+        <p><a th:href="@{/login}">Already have an account? Sign in</a></p>
+
+    </form>
+</section>
 
 </body>
 </html>
