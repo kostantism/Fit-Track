@@ -71,4 +71,6 @@ public class RegistrationController {
         model.addAttribute("errorMessage", createPersonResult.reason());
         return "register";
     }
+
+    /// ////////////////////////////
 }
