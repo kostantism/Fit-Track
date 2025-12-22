@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{base}">
+
 <head>
-    <meta charset="UTF-8">
     <title>Profile</title>
 </head>
+
 <body>
+
+<header layout:fragment="header">
+    <h1>Fit Track <small>/ Profile</small></h1>
+</header>
+
+<section layout:fragment="main">
+
+    <div>
+        <div>
+            <a th:href="@{/profile}" th:text="'Logged in as: ' + ${me.emailAddress()} + ' (' + ${me.type()} + ')'"></a>
+        </div>
+
+        <hr>
+
+        <ul>
+            <li>
+                <a th:href="@{/profile}">Profile</a>
+            </li>
+            <li>
+                <a th:href="@{/tickets}">Tickets</a>
+            </li>
+            <li>
+                <a th:href="@{/logout}">Logout</a>
+            </li>
+        </ul>
+    </div>
+
+</section>
 
 </body>
 </html>
