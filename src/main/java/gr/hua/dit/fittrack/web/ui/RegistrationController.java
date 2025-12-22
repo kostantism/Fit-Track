@@ -72,5 +72,5 @@ public class RegistrationController {
         return "register";
     }
 
-    /// //////////////////////
+    ///
 }
