@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{base}">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Fit Track</title>
+    <title>Home</title>
 </head>
+
 <body>
+
+<header layout:fragment="header">
+    <h1>🌐 Fit Track</h1>
+    <h3>The Smart Way to Manage Fitness & Training</h3>
+</header>
+
+<section layout:fragment="main">
+
+    <div class="mb-4">
+        <img src="https://cdn.produkto.io/logo-templates/66d37def778d29ead29157b1/fit-track.webp" style="width: 100%" />
+    </div>
+
+    <div>
+        <p>The Fit Track web application modernizes fitness tracking and personal training management. Users can easily register, manage their profiles, and track their fitness-related activity through a clean and intuitive interface. Trainers gain access to structured tools that help them monitor users, organize training data, and support progress efficiently.</p>
+        <p>With secure authentication, role-based access, and a scalable architecture, Fit Track brings clarity, reliability, and structure to modern fitness management. A simple, secure, and flexible platform designed to support healthy lifestyles and effective training.</p>
+    </div>
+
+    <div class="text-center mt-4">
+        <p><a th:href="@{/login}">Log in</a></p>
+        <p><a th:href="@{/register}">Register</a></p>
+    </div>
+
+</section>
 
 </body>
 </html>
