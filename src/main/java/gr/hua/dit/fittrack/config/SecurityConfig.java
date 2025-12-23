@@ -71,7 +71,8 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/login")
 //                        .usernameParameter("email")///////////////////////////////////////////////////////////////
-                        .defaultSuccessUrl("/profile", true)
+                        .defaultSuccessUrl("/profile")
+//αλλαγή σε σκέτο profile .defaultSuccessUrl("/profile", true)
                         .failureUrl("/login?error")
                         .permitAll()
                 )
