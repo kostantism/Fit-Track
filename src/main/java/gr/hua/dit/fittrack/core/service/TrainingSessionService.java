@@ -1,7 +1,10 @@
 package gr.hua.dit.fittrack.core.service;
 
-import gr.hua.dit.fittrack.core.model.*;
+import gr.hua.dit.fittrack.core.model.Person;
+import gr.hua.dit.fittrack.core.model.TrainingSession;
+import gr.hua.dit.fittrack.core.model.TrainingSessionStatus;
 import gr.hua.dit.fittrack.core.repository.TrainingSessionRepository;
+import gr.hua.dit.fittrack.core.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,113 +15,45 @@ import java.util.List;
 @Transactional
 public class TrainingSessionService {
 
-    private final TrainingSessionRepository trainingSessionRepository;
+    private final TrainingSessionRepository sessionRepository;
+    private final PersonRepository personRepository;
 
-    public TrainingSessionService(TrainingSessionRepository trainingSessionRepository) {
-        this.trainingSessionRepository = trainingSessionRepository;
+    public TrainingSessionService(TrainingSessionRepository sessionRepository,
+                                  PersonRepository personRepository) {
+        this.sessionRepository = sessionRepository;
+        this.personRepository = personRepository;
     }
 
-    /**
-     * Δημιουργία TrainingSession μετά από εγκεκριμένο appointment
-     */
-    public TrainingSession createSession(Appointment appointment) {
-
-        // ❌ Appointment must be approved
-        if (appointment.getStatus() != AppointmentStatus.APPROVED) {
-            throw new IllegalStateException("Training session can be created only for approved appointments");
-        }
-
-        // ❌ Appointment must be in the future or now
-        if (appointment.getStartDateTime().isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("Cannot create training session for past appointment");
-        }
-
-        Person trainer = appointment.getTrainer();
-        Person customer = appointment.getCustomer();
-
-        // ❌ Role safety
-        if (trainer.getType() != PersonType.TRAINER) {
-            throw new IllegalArgumentException("Trainer must have TRAINER role");
-        }
-
-        if (customer.getType() != PersonType.CUSTOMER) {
-            throw new IllegalArgumentException("Customer must have CUSTOMER role");
-        }
-
-        // ❌ Overlapping training sessions for trainer
-        boolean overlap = trainingSessionRepository
-                .existsByTrainerAndStartTimeLessThanAndEndTimeGreaterThan(
-                        trainer,
-                        appointment.getEndDateTime(),
-                        appointment.getStartDateTime()
-                );
-
-        if (overlap) {
-            throw new IllegalStateException("Trainer already has a training session at this time");
-        }
-
-        // ❌ Only one session per appointment
-        trainingSessionRepository.findByAppointmentId(appointment.getId())
-                .ifPresent(s -> {
-                    throw new IllegalStateException("Training session already exists for this appointment");
-                });
-
-        TrainingSession session = new TrainingSession(
-                appointment,
-                trainer,
-                customer,
-                appointment.getStartDateTime(),
-                appointment.getEndDateTime(),
-                TrainingSessionStatus.PLANNED
-        );
-
-        return trainingSessionRepository.save(session);
+    // 🔹 Επιστρέφει όλα τα sessions
+    @Transactional(readOnly = true)
+    public List<TrainingSession> getAllSessions() {
+        return sessionRepository.findAll();
     }
 
-    /**
-     * Ολοκλήρωση training session
-     */
-    public TrainingSession completeSession(Long sessionId, String notes) {
+    // 🔹 Επιστρέφει ένα session με id
+    @Transactional(readOnly = true)
+    public TrainingSession getSessionById(Long id) {
+        return sessionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Session not found with id: " + id));
+    }
 
-        TrainingSession session = trainingSessionRepository.findById(sessionId)
-                .orElseThrow(() -> new IllegalArgumentException("Training session not found"));
+    // 🔹 Δημιουργεί νέο session
+    public TrainingSession createSession(Long trainerId, String notes, LocalDateTime start, LocalDateTime end) {
+        Person trainer = personRepository.findById(trainerId)
+                .orElseThrow(() -> new IllegalArgumentException("Trainer not found with id: " + trainerId));
 
-        if (session.getStatus() != TrainingSessionStatus.PLANNED) {
-            throw new IllegalStateException("Only planned sessions can be completed");
-        }
-
-        session.setStatus(TrainingSessionStatus.COMPLETED);
+        TrainingSession session = new TrainingSession();
+        session.setTrainer(trainer);
         session.setNotes(notes);
+        session.setStartTime(start);
+        session.setEndTime(end);
+        session.setStatus(TrainingSessionStatus.PLANNED);
 
-        return trainingSessionRepository.save(session);
+        return sessionRepository.save(session);
     }
 
-    /**
-     * Ακύρωση training session
-     */
-    public TrainingSession cancelSession(Long sessionId) {
-
-        TrainingSession session = trainingSessionRepository.findById(sessionId)
-                .orElseThrow(() -> new IllegalArgumentException("Training session not found"));
-
-        if (session.getStatus() == TrainingSessionStatus.COMPLETED) {
-            throw new IllegalStateException("Completed sessions cannot be cancelled");
-        }
-
-        session.setStatus(TrainingSessionStatus.CANCELLED);
-        return trainingSessionRepository.save(session);
-    }
-
-    /**
-     * Προβολή sessions
-     */
-    @Transactional(readOnly = true)
-    public List<TrainingSession> getSessionsForTrainer(Person trainer) {
-        return trainingSessionRepository.findByTrainer(trainer);
-    }
-
-    @Transactional(readOnly = true)
-    public List<TrainingSession> getSessionsForCustomer(Person customer) {
-        return trainingSessionRepository.findByCustomer(customer);
+    // 🔹 Διαγράφει session
+    public void deleteSession(Long id) {
+        sessionRepository.deleteById(id);
     }
 }

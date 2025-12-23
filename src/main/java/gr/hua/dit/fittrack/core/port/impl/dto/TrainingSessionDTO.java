@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 public record TrainingSessionDTO(
         Long id,
         Long trainerId,
-        String title,
-        String description,
-        LocalDateTime startDateTime,
-        LocalDateTime endDateTime
+        Long customerId,
+        LocalDateTime startTime,
+        LocalDateTime endTime,
+        String notes
 ) {}
