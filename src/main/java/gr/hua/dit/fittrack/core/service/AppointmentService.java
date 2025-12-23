@@ -53,7 +53,7 @@ public class AppointmentService {
         }
 
         // ❌ Overlapping ραντεβού για trainer
-        boolean overlap = appointmentRepository.existsByTrainerAndStartTimeLessThanAndEndTimeGreaterThan(
+        boolean overlap = appointmentRepository.existsByTrainerAndStartDateTimeLessThanAndEndDateTimeGreaterThan(
                 trainer, end, start
         );
         if (overlap) {

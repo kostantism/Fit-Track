@@ -31,13 +31,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     long countByCustomerAndStatusIn(Person customer, List<AppointmentStatus> statuses);
 
-    boolean existsByTrainerAndStartTimeLessThanAndEndTimeGreaterThan(
-            Person trainer,
-            java.time.LocalDateTime endTime,
-            java.time.LocalDateTime startTime
-    );
-
-
     /**
      * Όλα τα appointments ενός trainer
      */
