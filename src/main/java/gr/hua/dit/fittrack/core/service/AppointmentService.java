@@ -16,7 +16,7 @@ public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final TrainerAvailabilityRepository availabilityRepository;
 
-    private static final int MAX_ACTIVE_APPOINTMENTS_PER_USER = 5; // παράδειγμα, αλλά μπορεί να αλλάξει
+    private static final int MAX_ACTIVE_APPOINTMENTS_PER_USER = 5; // προσαρμόζεται ανά ανάγκη
 
     public AppointmentService(AppointmentRepository appointmentRepository,
                               TrainerAvailabilityRepository availabilityRepository) {
@@ -38,7 +38,7 @@ public class AppointmentService {
             throw new IllegalArgumentException("Appointment must be with a trainer");
         }
 
-        // ❌ Ραντεβού στο παρελθόν
+        // ❌ Ραντεβού στο παρελθόν / invalid range
         if (start.isBefore(LocalDateTime.now()) || !start.isBefore(end)) {
             throw new IllegalArgumentException("Invalid appointment time");
         }
@@ -53,28 +53,30 @@ public class AppointmentService {
         }
 
         // ❌ Overlapping ραντεβού για trainer
-        boolean overlap = appointmentRepository.existsByTrainerAndStartDateTimeLessThanAndEndDateTimeGreaterThan(
-                trainer, end, start
-        );
+        boolean overlap = appointmentRepository
+                .existsByTrainerAndStartDateTimeLessThanAndEndDateTimeGreaterThan(
+                        trainer, end, start
+                );
         if (overlap) {
             throw new IllegalStateException("Trainer has overlapping appointment");
         }
 
         // ❌ Έλεγχος διαθέσιμων slots του trainer
-        boolean available = availabilityRepository.existsByTrainerAndDateAndStartTimeLessThanAndEndTimeGreaterThanAndStatus(
-                trainer,
-                start.toLocalDate(),
-                start.toLocalTime(),
-                end.toLocalTime(),
-                AvailabilityStatus.AVAILABLE
-        );
+        boolean available = availabilityRepository
+                .existsByTrainerAndDateAndStartTimeLessThanAndEndTimeGreaterThanAndStatus(
+                        trainer,
+                        start.toLocalDate(),
+                        start.toLocalTime(),
+                        end.toLocalTime(),
+                        AvailabilityStatus.AVAILABLE
+                );
         if (!available) {
             throw new IllegalStateException("Trainer is not available at this time");
         }
 
         Appointment appointment = new Appointment(
-                customer,
                 trainer,
+                customer,
                 start,
                 end,
                 AppointmentStatus.PENDING
@@ -100,7 +102,7 @@ public class AppointmentService {
     }
 
     /**
-     * Ανάκτηση ραντεβού ενός χρήστη
+     * Ανάκτηση ραντεβού ενός χρήστη (customer)
      */
     @Transactional(readOnly = true)
     public List<Appointment> getAppointmentsForCustomer(Person customer) {
