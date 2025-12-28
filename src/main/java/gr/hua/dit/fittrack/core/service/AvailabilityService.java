@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Service
@@ -21,8 +22,8 @@ public class AvailabilityService {
     public TrainerAvailability createAvailability(
             Person trainer,
             LocalDate date,
-            LocalTime startTime,
-            LocalTime endTime) {
+            LocalDateTime  startTime,
+            LocalDateTime endTime) {
 
         // ❌ Only trainers can define availability
         if (trainer.getType() != PersonType.TRAINER) {

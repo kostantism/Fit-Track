@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -24,10 +25,10 @@ public class TrainerAvailability {
     private LocalDate date;
 
     @Column(name = "start_time", nullable = false)
-    private LocalTime startTime;
+    private LocalDateTime  startTime;
 
     @Column(name = "end_time", nullable = false)
-    private LocalTime endTime;
+    private LocalDateTime endTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
@@ -42,8 +43,8 @@ public class TrainerAvailability {
 
     public TrainerAvailability(Person trainer,
                                LocalDate date,
-                               LocalTime startTime,
-                               LocalTime endTime,
+                               LocalDateTime  startTime,
+                               LocalDateTime  endTime,
                                AvailabilityStatus status) {
         this.trainer = trainer;
         this.date = date;
@@ -74,19 +75,19 @@ public class TrainerAvailability {
         this.date = date;
     }
 
-    public LocalTime getStartTime() {
+    public LocalDateTime  getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalTime startTime) {
+    public void setStartTime(LocalDateTime  startTime) {
         this.startTime = startTime;
     }
 
-    public LocalTime getEndTime() {
+    public LocalDateTime  getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalTime endTime) {
+    public void setEndTime(LocalDateTime  endTime) {
         this.endTime = endTime;
     }
 

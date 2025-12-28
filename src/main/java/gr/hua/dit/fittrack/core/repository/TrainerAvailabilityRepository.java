@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -20,11 +21,10 @@ public interface TrainerAvailabilityRepository
     List<TrainerAvailability> findByTrainerAndDate(Person trainer, LocalDate date);
 
 
-    boolean existsByTrainerAndDateAndStartTimeLessThanAndEndTimeGreaterThanAndStatus(
+    boolean existsByTrainerAndStartTimeLessThanAndEndTimeGreaterThanAndStatus(
             Person trainer,
-            LocalDate date,
-            LocalTime endTime,
-            LocalTime startTime,
+            LocalDateTime endTime,
+            LocalDateTime startTime,
             AvailabilityStatus status
     );
 
@@ -38,7 +38,7 @@ public interface TrainerAvailabilityRepository
     boolean existsByTrainerAndDateAndStartTimeLessThanAndEndTimeGreaterThan(
             Person trainer,
             LocalDate date,
-            LocalTime endTime,
-            LocalTime startTime
+            LocalDateTime endTime,
+            LocalDateTime startTime
     );
 }

@@ -63,11 +63,10 @@ public class AppointmentService {
 
         // ❌ Έλεγχος διαθέσιμων slots του trainer
         boolean available = availabilityRepository
-                .existsByTrainerAndDateAndStartTimeLessThanAndEndTimeGreaterThanAndStatus(
+                .existsByTrainerAndStartTimeLessThanAndEndTimeGreaterThanAndStatus(
                         trainer,
-                        start.toLocalDate(),
-                        start.toLocalTime(),
-                        end.toLocalTime(),
+                        end,
+                        start,
                         AvailabilityStatus.AVAILABLE
                 );
         if (!available) {

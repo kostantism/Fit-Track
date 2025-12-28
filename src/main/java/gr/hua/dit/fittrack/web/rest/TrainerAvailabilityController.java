@@ -9,6 +9,7 @@ import gr.hua.dit.fittrack.core.security.CurrentUserProvider;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @RestController
@@ -31,8 +32,8 @@ public class TrainerAvailabilityController {
     @PostMapping
     public TrainerAvailabilityDTO createAvailability(
             @RequestParam LocalDate date,
-            @RequestParam LocalTime startTime,
-            @RequestParam LocalTime endTime
+            @RequestParam LocalDateTime  startTime,
+            @RequestParam LocalDateTime endTime
     ) {
         long trainerId = currentUserProvider.requireTrainerId();
         Person trainer = personRepository.findById(trainerId)
