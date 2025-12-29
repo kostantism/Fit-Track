@@ -14,3 +14,7 @@ public record CreateTrainingSessionRequest(
         @NotNull(message = "Notes cannot be null")
         String notes
 ) {}
+
+
+/*
+gr.hua.dit.fittrack.core.service.model; public record CreateTrainingSessionRequest( Long appointmentId, String notes, String trainingPlan ) {}*/
