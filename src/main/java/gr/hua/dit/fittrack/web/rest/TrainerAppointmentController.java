@@ -148,7 +148,7 @@ public class TrainerAppointmentController {
     }
 
 }
-
+//
 /*package gr.hua.dit.fittrack.web.rest;
 
 import gr.hua.dit.fittrack.core.model.Person;
