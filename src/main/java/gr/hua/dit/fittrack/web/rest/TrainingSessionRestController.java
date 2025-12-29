@@ -41,18 +41,33 @@ public class TrainingSessionRestController {
 
     // 🔹 Create new session
     @PostMapping
+    public TrainingSessionDTO createSession(
+            @RequestParam Long appointmentId,
+            @RequestParam Long trainerId,
+            @RequestParam String notes
+    ) {
+        TrainingSession session = trainingSessionService.createSession(
+                appointmentId,
+                trainerId,
+                notes
+        );
+
+        return toDTO(session);
+    }
+
+    /*@PostMapping
     public TrainingSessionDTO createSession(@RequestParam Long trainerId,
                                             @RequestParam String notes,
                                             @RequestParam String startTime,
                                             @RequestParam String endTime) {
         TrainingSession session = trainingSessionService.createSession(
-                trainerId,
-                notes,
-                java.time.LocalDateTime.parse(startTime),
-                java.time.LocalDateTime.parse(endTime)
+                appointmentId,  // το id του appointment που είναι APPROVED
+                trainerId,      // το id του trainer που κάνει το session
+                notes           // οι σημειώσεις του trainer
         );
+
         return toDTO(session);
-    }
+    }*/
 
     // 🔹 Delete session
     @DeleteMapping("/{id}")

@@ -46,8 +46,11 @@ public class AvailabilityService {
                         trainer, date, endTime, startTime);
 
         if (overlap) {
-            throw new IllegalStateException("Overlapping availability slot");
+            throw new IllegalStateException(
+                    "Trainer already has availability for this time range"
+            );
         }
+
 
         TrainerAvailability availability = new TrainerAvailability(
                 trainer,

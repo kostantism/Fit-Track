@@ -87,10 +87,45 @@ public class AppointmentService {
     /**
      * Έγκριση ραντεβού από trainer
      */
-    public Appointment approveAppointment(Appointment appointment) {
+    public Appointment approveAppointment(Appointment appointment, Person trainer) {
+
+        if (trainer.getType() != PersonType.TRAINER) {
+            throw new IllegalArgumentException("Only trainer can approve appointment");
+        }
+
+        if (!appointment.getTrainer().equals(trainer)) {
+            throw new IllegalStateException("Trainer does not own this appointment");
+        }
+
+        if (appointment.getStatus() != AppointmentStatus.PENDING) {
+            throw new IllegalStateException(
+                    "Only PENDING appointments can be approved"
+            );
+        }
+
         appointment.setStatus(AppointmentStatus.APPROVED);
         return appointmentRepository.save(appointment);
     }
+
+    //Απόρριψη ραντεβού απο customer
+    public Appointment cancelByCustomer(Appointment appointment, Person customer) {
+        if (customer.getType() != PersonType.CUSTOMER) {
+            throw new IllegalArgumentException("Only customer can cancel");
+        }
+
+        if (!appointment.getCustomer().equals(customer)) {
+            throw new IllegalStateException("Not your appointment");
+        }
+
+        if (appointment.getStatus() == AppointmentStatus.CANCELLED ||
+                appointment.getStatus() == AppointmentStatus.REJECTED) {
+            throw new IllegalStateException("Appointment cannot be cancelled");
+        }
+
+        appointment.setStatus(AppointmentStatus.CANCELLED);
+        return appointmentRepository.save(appointment);
+    }
+
 
     /**
      * Απόρριψη ραντεβού από trainer
