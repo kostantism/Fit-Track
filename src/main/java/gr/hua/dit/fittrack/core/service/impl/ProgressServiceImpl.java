@@ -10,6 +10,8 @@ import gr.hua.dit.fittrack.core.service.model.CreateProgressEntryRequest;
 import gr.hua.dit.fittrack.core.service.model.ProgressEntryView;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDate;
+
 
 import java.util.List;
 
@@ -42,6 +44,12 @@ public class ProgressServiceImpl implements ProgressService {
         if (request.weightKg() == null && request.runTimeSeconds() == null) {
             throw new IllegalArgumentException("At least one metric must be provided");
         }
+
+        //καινουρια προσθηκη
+        if (request.entryDate().isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("Cannot create progress entry for a future date");
+        }
+
 
         ProgressEntry entry = new ProgressEntry(
                 customer,

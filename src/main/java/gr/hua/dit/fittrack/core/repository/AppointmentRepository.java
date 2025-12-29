@@ -8,15 +8,14 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
     /**
      * Έλεγχος overlapping appointments για trainer
-     *
-     * Overlap logic:
-     * existing.start < newEnd AND existing.end > newStart
+     * Logic: existing.start < newEnd AND existing.end > newStart
      */
     boolean existsByTrainerAndStartDateTimeLessThanAndEndDateTimeGreaterThan(
             Person trainer,
@@ -25,19 +24,92 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     );
 
     /**
-     * Μέτρηση ενεργών (approved) appointments ανά customer
+     * Έλεγχος overlapping appointments για trainer μόνο με συγκεκριμένα status
      */
-    long countByCustomerAndStatus(Person customer, AppointmentStatus status);
+    boolean existsByTrainerAndStartDateTimeLessThanAndEndDateTimeGreaterThanAndStatusIn(
+            Person trainer,
+            LocalDateTime endDateTime,
+            LocalDateTime startDateTime,
+            List<AppointmentStatus> statuses
+    );
 
+    /**
+     * Μέτρηση ενεργών appointments (PENDING + APPROVED) ανά customer
+     */
     long countByCustomerAndStatusIn(Person customer, List<AppointmentStatus> statuses);
 
     /**
-     * Όλα τα appointments ενός trainer
+     * Μέτρηση appointments με συγκεκριμένο status
+     */
+    long countByCustomerAndStatus(Person customer, AppointmentStatus status);
+
+    /**
+     * Ανάκτηση όλων των appointments ενός trainer
      */
     List<Appointment> findByTrainer(Person trainer);
 
     /**
-     * Όλα τα appointments ενός customer
+     * Ανάκτηση όλων των appointments ενός customer
      */
     List<Appointment> findByCustomer(Person customer);
+
+    /**
+     * Ανάκτηση appointment με βάση το ID
+     */
+    Optional<Appointment> findById(Long id);
 }
+
+
+/*
+package gr.hua.dit.fittrack.core.repository;
+
+import gr.hua.dit.fittrack.core.model.Appointment;
+import gr.hua.dit.fittrack.core.model.AppointmentStatus;
+import gr.hua.dit.fittrack.core.model.Person;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Repository
+public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
+
+    */
+/**
+     * Έλεγχος overlapping appointments για trainer
+     *
+     * Overlap logic:
+     * existing.start < newEnd AND existing.end > newStart
+     *//*
+
+    boolean existsByTrainerAndStartDateTimeLessThanAndEndDateTimeGreaterThan(
+            Person trainer,
+            LocalDateTime endDateTime,
+            LocalDateTime startDateTime
+    );
+
+    */
+/**
+     * Μέτρηση ενεργών (approved) appointments ανά customer
+     *//*
+
+    long countByCustomerAndStatus(Person customer, AppointmentStatus status);
+
+    long countByCustomerAndStatusIn(Person customer, List<AppointmentStatus> statuses);
+
+    */
+/**
+     * Όλα τα appointments ενός trainer
+     *//*
+
+    List<Appointment> findByTrainer(Person trainer);
+
+    */
+/**
+     * Όλα τα appointments ενός customer
+     *//*
+
+    List<Appointment> findByCustomer(Person customer);
+}
+*/

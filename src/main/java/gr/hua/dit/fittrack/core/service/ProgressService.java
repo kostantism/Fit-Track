@@ -12,5 +12,8 @@ public interface ProgressService {
             CreateProgressEntryRequest request
     );
 
+
+
+
     List<ProgressEntryView> getProgressForCustomer(Long customerId);
 }
