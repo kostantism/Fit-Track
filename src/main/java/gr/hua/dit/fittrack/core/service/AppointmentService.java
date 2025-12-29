@@ -150,4 +150,22 @@ public class AppointmentService {
     public List<Appointment> getAppointmentsForTrainer(Person trainer) {
         return appointmentRepository.findByTrainer(trainer);
     }
+    /**
+     * Ανάκτηση ραντεβού με βάση το ID
+     */
+    @Transactional(readOnly = true)
+    public Appointment getAppointmentById(Long id) {
+        return appointmentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Appointment not found with id: " + id));
+    }
+    /**
+     * Διαγραφή ραντεβού με βάση το ID
+     */
+    public void deleteAppointment(Long id) {
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Appointment not found with id: " + id));
+        appointmentRepository.delete(appointment);
+    }
+
+
 }
