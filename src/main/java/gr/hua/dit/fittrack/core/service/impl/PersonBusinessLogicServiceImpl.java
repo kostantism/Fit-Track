@@ -3,6 +3,7 @@ package gr.hua.dit.fittrack.core.service.impl;
 import gr.hua.dit.fittrack.core.model.Person;
 import gr.hua.dit.fittrack.core.model.PersonType;
 import gr.hua.dit.fittrack.core.repository.PersonRepository;
+import gr.hua.dit.fittrack.core.service.NotificationService;
 import gr.hua.dit.fittrack.core.service.PersonBusinessLogicService;
 import gr.hua.dit.fittrack.core.service.mapper.PersonMapper;
 import gr.hua.dit.fittrack.core.service.model.CreatePersonRequest;
@@ -17,18 +18,22 @@ public class PersonBusinessLogicServiceImpl implements PersonBusinessLogicServic
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
     private final PasswordEncoder passwordEncoder;
+    private final NotificationService notificationService;
 
     public PersonBusinessLogicServiceImpl(final PersonRepository personRepository,
                                           final PersonMapper personMapper,
-                                          final PasswordEncoder passwordEncoder) {
+                                          final PasswordEncoder passwordEncoder,
+                                          NotificationService notificationService) {
 
         if (personRepository == null) throw new NullPointerException();
         if(personMapper == null) throw new NullPointerException();
         if (passwordEncoder == null) throw new NullPointerException();
+        if(notificationService == null) throw new NullPointerException();
 
         this.personRepository = personRepository;
         this.personMapper = personMapper;
         this.passwordEncoder = passwordEncoder;
+        this.notificationService = notificationService;
     }
 
 
@@ -72,6 +77,8 @@ public class PersonBusinessLogicServiceImpl implements PersonBusinessLogicServic
 
 
         person = this.personRepository.save(person);
+
+        notificationService.notifyUserRegistered(person);
 
         final PersonView personView = this.personMapper.convertPersonToPersonView(person);
 

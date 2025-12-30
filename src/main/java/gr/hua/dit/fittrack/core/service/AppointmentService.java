@@ -15,13 +15,16 @@ public class AppointmentService {
 
     private final AppointmentRepository appointmentRepository;
     private final TrainerAvailabilityRepository availabilityRepository;
+    private final NotificationService notificationService;
 
     private static final int MAX_ACTIVE_APPOINTMENTS_PER_USER = 5; // προσαρμόζεται ανά ανάγκη
 
     public AppointmentService(AppointmentRepository appointmentRepository,
-                              TrainerAvailabilityRepository availabilityRepository) {
+                              TrainerAvailabilityRepository availabilityRepository,
+                              NotificationService notificationService) {
         this.appointmentRepository = appointmentRepository;
         this.availabilityRepository = availabilityRepository;
+        this.notificationService = notificationService;
     }
 
     /**
@@ -104,7 +107,11 @@ public class AppointmentService {
         }
 
         appointment.setStatus(AppointmentStatus.APPROVED);
-        return appointmentRepository.save(appointment);
+        Appointment saved = appointmentRepository.save(appointment);
+
+        notificationService.notifyAppointmentApproved(saved);
+
+        return saved;
     }
 
     //Απόρριψη ραντεβού απο customer
@@ -123,7 +130,11 @@ public class AppointmentService {
         }
 
         appointment.setStatus(AppointmentStatus.CANCELLED);
-        return appointmentRepository.save(appointment);
+        Appointment saved = appointmentRepository.save(appointment);
+
+        notificationService.notifyAppointmentCancelled(saved);
+
+        return saved;
     }
 
 

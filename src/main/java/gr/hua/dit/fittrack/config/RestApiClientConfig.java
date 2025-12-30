@@ -13,6 +13,8 @@ public class RestApiClientConfig {
 
     public static final String SMS_BASE_URL = "http://localhost:8081";
 
+    public static final String EMAIL_BASE_URL= "http://localhost:8081";
+
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
