@@ -1,7 +1,6 @@
 package gr.hua.dit.fittrack.web.rest;
 
 import gr.hua.dit.fittrack.core.model.Appointment;
-import gr.hua.dit.fittrack.core.model.AppointmentStatus;
 import gr.hua.dit.fittrack.core.model.Person;
 import gr.hua.dit.fittrack.core.port.impl.dto.AppointmentDTO;
 import gr.hua.dit.fittrack.core.service.AppointmentService;
@@ -11,7 +10,6 @@ import gr.hua.dit.fittrack.core.security.CurrentUserProvider;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
