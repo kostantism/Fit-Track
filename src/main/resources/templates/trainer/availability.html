@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base}">
+
+<head>
+    <title>Trainer Availability</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <h1>Fit Track <small>/ Profile / Trainer Availability </small></h1>
+</header>
+
+<section layout:fragment="main">
+    <h2>Manage Availability</h2>
+    <p>Availability management will be implemented here.</p>
+
+    <ul>
+        <li><a th:href="@{/}">Homepage</a></li>
+        <li><a th:href="@{/profile}">Profile</a></li>
+    </ul>
+
+</section>
+
+</body>
+</html>

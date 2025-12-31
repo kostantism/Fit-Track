@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base}">
+
+<head>
+    <title>Trainer Appointments</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <h1>Fit Track <small>/ Profile / Trainer Appointments </small></h1>
+</header>
+
+<section layout:fragment="main">
+    <h2>Appointments</h2>
+    <p>Trainer appointments will be displayed here.</p>
+
+    <ul>
+        <li><a th:href="@{/}">Homepage</a></li>
+        <li><a th:href="@{/profile}">Profile</a></li>
+    </ul>
+
+</section>
+
+</body>
+</html>
