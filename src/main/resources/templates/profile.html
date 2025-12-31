@@ -16,24 +16,84 @@
 
 <section layout:fragment="main">
 
-    <div>
-        <div>
-            <a th:href="@{/profile}" th:text="'Logged in as: ' + ${me.emailAddress()} + ' (' + ${me.type()} + ')'"></a>
-        </div>
+    <h2>
+        Logged in as:
+        <span th:text="${me.emailAddress()}"></span>
+        (<span th:text="${me.type()}"></span>)
+    </h2>
 
-        <hr>
+    <hr>
 
+    <!-- CUSTOMER SECTION -->
+    <div th:if="${me.type().name() == 'CUSTOMER'}">
+        <h3>Customer Actions</h3>
         <ul>
-            <li>
-                <a th:href="@{/}">Homepage</a>
-            </li>
-            <li>
-                <a th:href="@{/logout}">Logout</a>
-            </li>
+            <li><a th:href="@{/customer/goals}">Manage Goals</a></li>
+            <li><a th:href="@{/appointments/book}">Book Appointment</a></li>
+            <li><a th:href="@{/progress}">View Progress</a></li>
         </ul>
     </div>
+
+    <!-- TRAINER SECTION -->
+    <div th:if="${me.type().name() == 'TRAINER'}">
+        <h3>Trainer Actions</h3>
+        <ul>
+            <li><a th:href="@{/trainer/availability}">Manage Availability</a></li>
+            <li><a th:href="@{/trainer/appointments}">Appointments</a></li>
+            <li><a th:href="@{/trainer/notes}">Training Notes</a></li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <ul>
+        <li><a th:href="@{/}">Homepage</a></li>
+        <li><a th:href="@{/logout}">Logout</a></li>
+    </ul>
 
 </section>
 
 </body>
 </html>
+
+
+
+<!--<!DOCTYPE html>-->
+<!--<html-->
+<!--        xmlns:th="https://www.thymeleaf.org"-->
+<!--        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--        layout:decorate="~{base}">-->
+
+<!--<head>-->
+<!--    <title>Profile</title>-->
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<header layout:fragment="header">-->
+<!--    <h1>Fit Track <small>/ Profile</small></h1>-->
+<!--</header>-->
+
+<!--<section layout:fragment="main">-->
+
+<!--    <div>-->
+<!--        <div>-->
+<!--            <a th:href="@{/profile}" th:text="'Logged in as: ' + ${me.emailAddress()} + ' (' + ${me.type()} + ')'"></a>-->
+<!--        </div>-->
+
+<!--        <hr>-->
+
+<!--        <ul>-->
+<!--            <li>-->
+<!--                <a th:href="@{/}">Homepage</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <a th:href="@{/logout}">Logout</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+
+<!--</section>-->
+
+<!--</body>-->
+<!--</html>-->
