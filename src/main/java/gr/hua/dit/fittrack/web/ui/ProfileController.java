@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * UI controller for profile page.
- *
  * The authenticated user is provided automatically
  * via CurrentUserControllerAdvice as model attribute "me".
  */

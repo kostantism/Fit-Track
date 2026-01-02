@@ -16,13 +16,31 @@
 
 <section layout:fragment="main">
     <h2>Manage Availability</h2>
-    <p>Availability management will be implemented here.</p>
+
+    <form th:action="@{/trainer/availability}"
+          th:object="${availability}"
+          method="post">
+
+        <div>
+            <label>Start date & time</label>
+            <input type="datetime-local"
+                   th:field="{startDateTime}" required />
+        </div>
+
+        <div>
+            <label>End date & time</label>
+            <input type="datetime-local"
+                   th:field="{endDateTime}" required />
+        </div>
+
+        <button type="submit">Add availability</button>
+    </form>
+
+    <hr/>
 
     <ul>
-        <li><a th:href="@{/}">Homepage</a></li>
-        <li><a th:href="@{/profile}">Profile</a></li>
+        <li><a th:href="@{/profile}">Back to profile</a></li>
     </ul>
-
 </section>
 
 </body>

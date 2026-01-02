@@ -16,7 +16,12 @@
 
 <section layout:fragment="main">
     <h2>Appointments</h2>
-    <p>Trainer appointments will be displayed here.</p>
+    <tr th:each="a : ${appointments}">
+        <td th:text="${a.customer.fullName}"></td>
+        <td th:text="${a.startTime}"></td>
+        <td th:text="${a.endTime}"></td>
+        <td th:text="${a.status}"></td>
+    </tr>
 
     <ul>
         <li><a th:href="@{/}">Homepage</a></li>

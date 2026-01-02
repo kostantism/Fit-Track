@@ -15,13 +15,38 @@
 </header>
 
 <section layout:fragment="main">
-    <h2>Training Notes</h2>
-    <p>Training notes per customer will be implemented here.</p>
+    <h2>Trainer Notes</h2>
 
-    <ul>
-        <li><a th:href="@{/}">Homepage</a></li>
-        <li><a th:href="@{/profile}">Profile</a></li>
-    </ul>
+    <div th:each="appt : ${appointments}">
+
+        <h4>
+            Appointment with
+            <span th:text="${appt.customer.fullName}"></span>
+            |
+            <span th:text="${#temporals.format(appt.startDateTime, 'dd/MM HH:mm')}"></span>
+        </h4>
+
+        <!-- αν ΥΠΑΡΧΕΙ session -->
+        <div th:if="${appt.trainingSession != null}">
+            <p><strong>Notes:</strong></p>
+            <p th:text="${appt.trainingSession.notes}"></p>
+        </div>
+
+        <!-- αν ΔΕΝ υπάρχει session -->
+        <div th:if="${appt.trainingSession == null}">
+            <form th:action="@{/trainer/notes/{id}(id=${appt.id})}"
+                  method="post">
+            <textarea name="notes"
+                      rows="4"
+                      cols="50"
+                      required></textarea>
+                <br/>
+                <button type="submit">Save Notes</button>
+            </form>
+        </div>
+
+        <hr/>
+    </div>
 
 </section>
 

@@ -39,6 +39,15 @@ public class PersonDataServiceImpl implements PersonDataService {
                 .map(personMapper::convertPersonToPersonView)
                 .toList();
     }
+
+//    @Override
+//    public Person findPersonEntityById(Long id) {
+//        return personRepository.findById(id)
+//                .orElseThrow(() ->
+//                        new IllegalArgumentException("Person not found with id: " + id)
+//                );
+//    }
+
 }
 
 //package gr.hua.dit.fittrack.core.service.impl;
