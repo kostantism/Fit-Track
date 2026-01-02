@@ -79,37 +79,97 @@ import java.util.List;
 //}
 
 
+//@Controller
+//@RequestMapping("/trainer/notes")
+//@PreAuthorize("hasRole('TRAINER')")
+//public class TrainerNotesController {
+//
+//    private final AppointmentService appointmentService;
+//    private final TrainingSessionService trainingSessionService;
+//    private final PersonRepository personRepository;
+//    private final CurrentUserProvider currentUserProvider;
+//
+//    public TrainerNotesController(
+//            AppointmentService appointmentService,
+//            TrainingSessionService trainingSessionService,
+//            PersonRepository personRepository,
+//            CurrentUserProvider currentUserProvider
+//    ) {
+//        this.appointmentService = appointmentService;
+//        this.trainingSessionService = trainingSessionService;
+//        this.personRepository = personRepository;
+//        this.currentUserProvider = currentUserProvider;
+//    }
+//
+//    // 📌 Προβολή notes / πλάνου
+//    @GetMapping
+//    public String showNotes(Model model) {
+//
+//        long trainerId = currentUserProvider.requireTrainerId();
+//        Person trainer = personRepository.findById(trainerId).orElseThrow();
+//
+//        List<Appointment> appointments =
+//                appointmentService.getApprovedAppointmentsForTrainer(trainer);
+//
+//        model.addAttribute("appointments", appointments);
+//        return "trainer/notes";
+//    }
+//
+//    // 💾 Αποθήκευση notes + plan
+//    @PostMapping("/{appointmentId}")
+//    public String saveNotes(
+//            @PathVariable Long appointmentId,
+//            @RequestParam String notes,
+//            @RequestParam String trainingPlan
+//    ) {
+//        long trainerId = currentUserProvider.requireTrainerId();
+//
+//        trainingSessionService.createSession(
+//                appointmentId,
+//                trainerId,
+//                notes,
+//                trainingPlan
+//        );
+//
+//        return "redirect:/trainer/notes";
+//    }
+//}
+
 @Controller
 @RequestMapping("/trainer/notes")
 @PreAuthorize("hasRole('TRAINER')")
 public class TrainerNotesController {
 
-    private final AppointmentService appointmentService;
+    private final AppointmentRepository appointmentRepository;
     private final TrainingSessionService trainingSessionService;
-    private final PersonRepository personRepository;
     private final CurrentUserProvider currentUserProvider;
+    private final PersonRepository personRepository;
 
     public TrainerNotesController(
-            AppointmentService appointmentService,
+            AppointmentRepository appointmentRepository,
             TrainingSessionService trainingSessionService,
-            PersonRepository personRepository,
-            CurrentUserProvider currentUserProvider
+            CurrentUserProvider currentUserProvider,
+            PersonRepository personRepository
     ) {
-        this.appointmentService = appointmentService;
+        this.appointmentRepository = appointmentRepository;
         this.trainingSessionService = trainingSessionService;
-        this.personRepository = personRepository;
         this.currentUserProvider = currentUserProvider;
+        this.personRepository = personRepository;
     }
 
-    // 📌 Προβολή notes / πλάνου
+    // 📌 Προβολή approved appointments για notes
     @GetMapping
     public String showNotes(Model model) {
 
         long trainerId = currentUserProvider.requireTrainerId();
         Person trainer = personRepository.findById(trainerId).orElseThrow();
 
+        // ✅ ΕΔΩ μπαίνει αυτό που ρώτησες
         List<Appointment> appointments =
-                appointmentService.getApprovedAppointmentsForTrainer(trainer);
+                appointmentRepository.findByTrainerAndStatus(
+                        trainer,
+                        AppointmentStatus.APPROVED
+                );
 
         model.addAttribute("appointments", appointments);
         return "trainer/notes";
@@ -123,14 +183,12 @@ public class TrainerNotesController {
             @RequestParam String trainingPlan
     ) {
         long trainerId = currentUserProvider.requireTrainerId();
-
         trainingSessionService.createSession(
                 appointmentId,
                 trainerId,
                 notes,
                 trainingPlan
         );
-
         return "redirect:/trainer/notes";
     }
 }

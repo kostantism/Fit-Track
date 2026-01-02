@@ -35,9 +35,9 @@ public class TrainerAvailController {
         this.personRepository = personRepository;
     }
 
-    @GetMapping
+    @GetMapping("/trainer/availability")
     public String showAvailabilityForm(Model model) {
-        model.addAttribute("createAvailabilityRequest", new CreateAvailabilityRequest(null, null));
+        model.addAttribute("availability", new CreateAvailabilityRequest(null, null));
         return "trainer/availability";
     }
 
@@ -66,4 +66,6 @@ public class TrainerAvailController {
 
         return "redirect:/trainer/availability";
     }
+
+
 }
