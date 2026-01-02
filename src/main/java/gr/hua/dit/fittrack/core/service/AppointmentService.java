@@ -23,4 +23,6 @@ public interface AppointmentService {
     Appointment getAppointmentById(Long id);
 
     void deleteAppointment(Long id);
+
+    List<Appointment> getApprovedAppointmentsForTrainer(Person trainer);
 }

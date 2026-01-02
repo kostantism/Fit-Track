@@ -42,7 +42,7 @@ public class TrainingSessionServiceImpl implements TrainingSessionService {
     }
 
     @Override
-    public TrainingSession createSession(Long appointmentId, Long trainerId, String notes) {
+    public TrainingSession createSession(Long appointmentId, Long trainerId, String notes, String trainingPlan) {
 
         // Βρες appointment
         Appointment appointment = appointmentRepository.findById(appointmentId)

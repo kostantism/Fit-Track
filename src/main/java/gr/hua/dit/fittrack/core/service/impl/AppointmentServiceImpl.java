@@ -324,4 +324,13 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found with id: " + id));
         appointmentRepository.delete(appointment);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Appointment> getApprovedAppointmentsForTrainer(Person trainer) {
+        return appointmentRepository.findByTrainerAndStatus(
+                trainer,
+                AppointmentStatus.APPROVED
+        );
+    }
 }

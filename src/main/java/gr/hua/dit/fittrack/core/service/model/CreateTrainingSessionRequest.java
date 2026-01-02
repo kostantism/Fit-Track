@@ -12,7 +12,11 @@ public record CreateTrainingSessionRequest(
         Long trainerId,
 
         @NotNull(message = "Notes cannot be null")
-        String notes
+        String notes,
+
+        @NotNull(message = "Training plan cannot be null")
+        String trainingPlan
+
 ) {}
 
 

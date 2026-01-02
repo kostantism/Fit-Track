@@ -41,7 +41,8 @@ public class TrainingSessionRestController {
         TrainingSession session = trainingSessionService.createSession(
                 request.appointmentId(),
                 request.trainerId(),
-                request.notes()
+                request.notes(),
+                request.trainingPlan()
         );
         return toDTO(session);
     }

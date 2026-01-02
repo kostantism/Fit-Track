@@ -52,41 +52,6 @@ public class SecurityConfig {
     /**
      * UI – Cookie based, stateful
      */
-//    @Bean
-//    @Order(2)
-//    public SecurityFilterChain uiChain(HttpSecurity http) throws Exception {
-//
-//        http
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(
-//                                "/",
-//                                "/login",
-//                                "/register",
-//                                "/v3/api-docs/**",
-//                                "/swagger-ui.html",
-//                                "/swagger-ui/**"
-//                        ).permitAll()
-//                        .anyRequest().authenticated()
-//                )
-//                .formLogin(form -> form
-//                        .loginPage("/login")
-////                        .usernameParameter("email")///////////////////////////////////////////////////////////////
-//                        .defaultSuccessUrl("/profile")
-////αλλαγή σε σκέτο profile .defaultSuccessUrl("/profile", true)
-//                        .failureUrl("/login?error")
-//                        .permitAll()
-//                )
-//                .logout(logout -> logout
-//                        .logoutUrl("/logout")
-//                        .logoutSuccessUrl("/login?logout")
-//                        .invalidateHttpSession(true)
-//                        .deleteCookies("JSESSIONID")
-//                );
-//
-//        return http.build();
-//    }
-
-
 
     @Bean
     @Order(2)

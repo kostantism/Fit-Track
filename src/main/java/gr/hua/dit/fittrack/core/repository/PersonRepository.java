@@ -22,5 +22,8 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
     List<Person> findByType(PersonType type);
 
-    Optional<Person> findByEmailAddressIgnoreCase(final String emailAddress);}
+    Optional<Person> findByEmailAddressIgnoreCase(final String emailAddress);
+
+    Optional<Person> findByEmailAddress(final String emailAddress);
+}
 

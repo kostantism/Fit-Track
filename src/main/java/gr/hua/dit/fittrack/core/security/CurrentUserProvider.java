@@ -39,6 +39,10 @@ public final class CurrentUserProvider {
                 .orElseThrow(() -> new SecurityException("User not authenticated"));
     }
 
+    public String requireUsername() {
+        return requireCurrentUser().emailAddress();
+    }
+
     public long requireCustomerId() {
         CurrentUser user = requireCurrentUser();
         if (user.type() != PersonType.CUSTOMER) {

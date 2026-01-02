@@ -16,12 +16,42 @@
 
 <section layout:fragment="main">
     <h2>Appointments</h2>
-    <tr th:each="a : ${appointments}">
-        <td th:text="${a.customer.fullName}"></td>
-        <td th:text="${a.startTime}"></td>
-        <td th:text="${a.endTime}"></td>
-        <td th:text="${a.status}"></td>
-    </tr>
+<!--    <tr th:each="a : ${appointments}">-->
+<!--        <td th:text="${a.customer.fullName}"></td>-->
+<!--        <td th:text="${a.startTime}"></td>-->
+<!--        <td th:text="${a.endTime}"></td>-->
+<!--        <td th:text="${a.status}"></td>-->
+<!--    </tr>-->
+    <table>
+        <tr>
+            <th>Customer</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+
+        <tr th:each="a : ${appointments}">
+            <td th:text="${a.customer.fullName}"></td>
+            <td th:text="${a.startDateTime}"></td>
+            <td th:text="${a.endDateTime}"></td>
+            <td th:text="${a.status}"></td>
+
+            <td>
+                <form th:if="${a.status.name() == 'PENDING'}"
+                      th:action="@{/trainer/appointments/{id}/approve(id=${a.id})}"
+                      method="post">
+                    <button type="submit">Approve</button>
+                </form>
+
+                <form th:if="${a.status.name() == 'PENDING'}"
+                      th:action="@{/trainer/appointments/{id}/reject(id=${a.id})}"
+                      method="post">
+                    <button type="submit">Reject</button>
+                </form>
+            </td>
+        </tr>
+    </table>
 
     <ul>
         <li><a th:href="@{/}">Homepage</a></li>

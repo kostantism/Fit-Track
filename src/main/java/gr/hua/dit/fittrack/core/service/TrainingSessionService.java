@@ -10,7 +10,7 @@ public interface TrainingSessionService {
 
     TrainingSession getSessionById(Long id);
 
-    TrainingSession createSession(Long appointmentId, Long trainerId, String notes);
+    TrainingSession createSession(Long appointmentId, Long trainerId, String notes, String trainingPlan);
 
     void deleteSession(Long id);
 }

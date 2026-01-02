@@ -1,8 +1,64 @@
+<!--<!DOCTYPE html>-->
+<!--<html-->
+<!--        xmlns:th="https://www.thymeleaf.org"-->
+<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--      layout:decorate="~{base}">-->
+
+<!--<head>-->
+<!--    <title>Trainer Notes</title>-->
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<header layout:fragment="header">-->
+<!--    <h1>Fit Track <small>/ Profile / Training Notes </small></h1>-->
+<!--</header>-->
+
+<!--<section layout:fragment="main">-->
+<!--    <h2>Trainer Notes</h2>-->
+
+<!--    <div th:each="appt : ${appointments}">-->
+
+<!--        <h4>-->
+<!--            Appointment with-->
+<!--            <span th:text="${appt.customer.fullName}"></span>-->
+<!--            |-->
+<!--            <span th:text="${#temporals.format(appt.startDateTime, 'dd/MM HH:mm')}"></span>-->
+<!--        </h4>-->
+
+<!--        &lt;!&ndash; αν ΥΠΑΡΧΕΙ session &ndash;&gt;-->
+<!--        <div th:if="${appt.trainingSession != null}">-->
+<!--            <p><strong>Notes:</strong></p>-->
+<!--            <p th:text="${appt.trainingSession.notes}"></p>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; αν ΔΕΝ υπάρχει session &ndash;&gt;-->
+<!--        <div th:if="${appt.trainingSession == null}">-->
+<!--            <form th:action="@{/trainer/notes/{id}(id=${appt.id})}"-->
+<!--                  method="post">-->
+<!--            <textarea name="notes"-->
+<!--                      rows="4"-->
+<!--                      cols="50"-->
+<!--                      required></textarea>-->
+<!--                <br/>-->
+<!--                <button type="submit">Save Notes</button>-->
+<!--            </form>-->
+<!--        </div>-->
+
+<!--        <hr/>-->
+<!--    </div>-->
+
+<!--</section>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
 <html
-        xmlns:th="https://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{base}">
+        xmlns:th="https://www.thymeleaf.org/"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{base}">
 
 <head>
     <title>Trainer Notes</title>
@@ -11,42 +67,90 @@
 <body>
 
 <header layout:fragment="header">
-    <h1>Fit Track <small>/ Profile / Training Notes </small></h1>
+    <h1>
+        Fit Track
+        <small>/ Profile / Training Notes & Plans</small>
+    </h1>
 </header>
 
 <section layout:fragment="main">
-    <h2>Trainer Notes</h2>
 
-    <div th:each="appt : ${appointments}">
+    <h2>Training Sessions</h2>
+
+    <div th:if="${appointments.isEmpty()}">
+        <p>No approved appointments yet.</p>
+    </div>
+
+    <div th:each="appt : ${appointments}"
+         style="border:1px solid #ccc; padding:15px; margin-bottom:20px;">
 
         <h4>
-            Appointment with
-            <span th:text="${appt.customer.fullName}"></span>
-            |
-            <span th:text="${#temporals.format(appt.startDateTime, 'dd/MM HH:mm')}"></span>
+            Client:
+            <span th:text="${appt.customer.firstName + ' ' + appt.customer.lastName}"></span>
         </h4>
 
-        <!-- αν ΥΠΑΡΧΕΙ session -->
+        <p>
+            <strong>Date:</strong>
+            <span th:text="${#temporals.format(appt.startDateTime, 'dd/MM/yyyy HH:mm')}"></span>
+            –
+            <span th:text="${#temporals.format(appt.endDateTime, 'HH:mm')}"></span>
+        </p>
+
+        >
+        <!-- ===================== -->
+        <!-- ΥΠΑΡΧΕΙ SESSION -->
+        <!-- ===================== -->
         <div th:if="${appt.trainingSession != null}">
-            <p><strong>Notes:</strong></p>
+
+            <h5>Notes</h5>
             <p th:text="${appt.trainingSession.notes}"></p>
+
+            <h5>Training Plan</h5>
+            <p th:text="${appt.trainingSession.trainingPlan}"></p>
+
+            <p>
+                <em>Status:</em>
+                <span th:text="${appt.trainingSession.status}"></span>
+            </p>
         </div>
 
-        <!-- αν ΔΕΝ υπάρχει session -->
+        <!-- ===================== -->
+        <!-- ΔΕΝ ΥΠΑΡΧΕΙ SESSION -->
+        <!-- ===================== -->
         <div th:if="${appt.trainingSession == null}">
+
             <form th:action="@{/trainer/notes/{id}(id=${appt.id})}"
                   method="post">
-            <textarea name="notes"
-                      rows="4"
-                      cols="50"
-                      required></textarea>
+
+                <div>
+                    <label><strong>Notes</strong></label><br/>
+                    <textarea name="notes"
+                              rows="4"
+                              cols="60"
+                              required></textarea>
+                </div>
+
                 <br/>
-                <button type="submit">Save Notes</button>
+
+                <div>
+                    <label><strong>Training Plan</strong></label><br/>
+                    <textarea name="trainingPlan"
+                              rows="6"
+                              cols="60"
+                              required></textarea>
+                </div>
+
+                <br/>
+
+                <button type="submit">
+                    Save Session
+                </button>
             </form>
         </div>
 
-        <hr/>
     </div>
+
+    <a th:href="@{/profile}">← Back to Profile</a>
 
 </section>
 

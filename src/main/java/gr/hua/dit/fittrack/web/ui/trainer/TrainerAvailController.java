@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @PreAuthorize("hasRole('TRAINER')")
-public class TrainerAvailabilityController {
+@RequestMapping("/trainer/availability")
+public class TrainerAvailController {
 
     private final AvailabilityService availabilityService;
     private final CurrentUserProvider currentUserProvider;
     private final PersonRepository personRepository;
 
-    public TrainerAvailabilityController(
+    public TrainerAvailController(
             AvailabilityService availabilityService,
             CurrentUserProvider currentUserProvider,
             PersonRepository personRepository
@@ -34,15 +35,27 @@ public class TrainerAvailabilityController {
         this.personRepository = personRepository;
     }
 
-    @PostMapping("/trainer/availability")
-    public String createAvailability(@ModelAttribute CreateAvailabilityRequest request) {
+    @GetMapping
+    public String showAvailabilityForm(Model model) {
+        model.addAttribute("createAvailabilityRequest", new CreateAvailabilityRequest(null, null));
+        return "trainer/availability";
+    }
 
-        CurrentUser currentUser = currentUserProvider.getCurrentUser()
-                .orElseThrow(() -> new RuntimeException("User not authenticated"));
+    @PostMapping
+    public String createAvailability(
+            @Valid @ModelAttribute CreateAvailabilityRequest request,
+            BindingResult bindingResult
+    ) {
+
+        if (bindingResult.hasErrors()) {
+            return "trainer/availability";
+        }
+
+        CurrentUser currentUser = currentUserProvider.requireCurrentUser();
 
         Person trainer = personRepository
-                .findByUsername(currentUser.getUsername())
-                .orElseThrow(() -> new RuntimeException("Trainer not found"));
+                .findByEmailAddress(currentUser.emailAddress())
+                .orElseThrow(() -> new IllegalStateException("Trainer not found"));
 
         availabilityService.createAvailability(
                 trainer,

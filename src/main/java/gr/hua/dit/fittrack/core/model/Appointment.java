@@ -27,6 +27,9 @@ public class Appointment {
     @JoinColumn(name = "customer_id", nullable = false)
     private Person customer;
 
+    @OneToOne(mappedBy = "appointment")
+    private TrainingSession trainingSession;
+
     // =====================
     // Time window
     // =====================
@@ -122,6 +125,14 @@ public class Appointment {
 
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public TrainingSession getTrainingSession() {
+        return trainingSession;
+    }
+
+    public void setTrainingSession(TrainingSession trainingSession) {
+        this.trainingSession = trainingSession;
     }
 
     // =====================

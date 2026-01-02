@@ -42,6 +42,9 @@ public class TrainingSession {
     @Column(name = "notes", length = 1000)
     private String notes;
 
+    @Column(name = "training_plan", length = 2000)
+    private String trainingPlan;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
@@ -50,18 +53,31 @@ public class TrainingSession {
     public TrainingSession() {
     }
 
-    public TrainingSession(Appointment appointment,
-                           Person trainer,
-                           Person customer,
-                           LocalDateTime startTime,
-                           LocalDateTime endTime,
-                           TrainingSessionStatus status) {
+//    public TrainingSession(Appointment appointment,
+//                           Person trainer,
+//                           Person customer,
+//                           LocalDateTime startTime,
+//                           LocalDateTime endTime,
+//                           TrainingSessionStatus status) {
+//        this.appointment = appointment;
+//        this.trainer = trainer;
+//        this.customer = customer;
+//        this.startTime = startTime;
+//        this.endTime = endTime;
+//        this.status = status;
+//    }
+
+    public TrainingSession(Long id, Appointment appointment, Person trainer, Person customer, LocalDateTime startTime, LocalDateTime endTime, TrainingSessionStatus status, String notes, String trainingPlan, Instant createdAt) {
+        this.id = id;
         this.appointment = appointment;
         this.trainer = trainer;
         this.customer = customer;
         this.startTime = startTime;
         this.endTime = endTime;
         this.status = status;
+        this.notes = notes;
+        this.trainingPlan = trainingPlan;
+        this.createdAt = createdAt;
     }
 
     // 🔹 Getters & Setters
@@ -130,7 +146,21 @@ public class TrainingSession {
         return createdAt;
     }
 
+    public String getTrainingPlan() {
+        return trainingPlan;
+    }
 
+    public void setTrainingPlan(String trainingPlan) {
+        this.trainingPlan = trainingPlan;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
 }
 
 //package gr.hua.dit.fittrack.core.model;
