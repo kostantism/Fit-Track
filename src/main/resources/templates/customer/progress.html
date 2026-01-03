@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{base}">
+
+<head>
+    <title>My Progress</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <h1>
+        Fit Track
+        <small>/ Profile / My Progress</small>
+    </h1>
+</header>
+
+<section layout:fragment="main">
+
+    <h2>Add Progress Entry</h2>
+
+    <form th:action="@{/customer/progress}"
+          th:object="${progressForm}"
+          method="post">
+
+        <div>
+            <label>Date</label><br/>
+            <input type="date"
+                   th:field="*{entryDate}"
+                   required />
+        </div>
+
+        <div>
+            <label>Weight (kg)</label><br/>
+            <input type="number"
+                   step="0.1"
+                   th:field="*{weightKg}" />
+        </div>
+
+        <div>
+            <label>Run time (seconds)</label><br/>
+            <input type="number"
+                   th:field="*{runTimeSeconds}" />
+        </div>
+
+        <div>
+            <label>Notes</label><br/>
+            <textarea th:field="*{notes}"
+                      rows="3"
+                      cols="40"></textarea>
+        </div>
+
+        <br/>
+        <button type="submit">Save</button>
+    </form>
+
+    <hr/>
+
+    <h2>Progress History</h2>
+
+    <div th:if="${progress.isEmpty()}">
+        <p>No progress entries yet.</p>
+    </div>
+
+    <table th:if="${!progress.isEmpty()}" border="1" cellpadding="5">
+        <tr>
+            <th>Date</th>
+            <th>Weight (kg)</th>
+            <th>Run Time (sec)</th>
+            <th>Notes</th>
+        </tr>
+
+        <tr th:each="p : ${progress}">
+            <td th:text="${p.entryDate()}"></td>
+            <td th:text="${p.weightKg()}"></td>
+            <td th:text="${p.runTimeSeconds()}"></td>
+            <td th:text="${p.notes()}"></td>
+        </tr>
+    </table>
+
+    <br/>
+    <a th:href="@{/profile}">← Back to Profile</a>
+
+</section>
+
+</body>
+</html>
