@@ -212,7 +212,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 List.of(AppointmentStatus.PENDING, AppointmentStatus.APPROVED)
         );
         if (activeCount >= MAX_ACTIVE_APPOINTMENTS_PER_USER) {
-            throw new IllegalStateException("Customer has reached max active appointments");
+            throw new IllegalStateException("Customer has reached max active appointments (5)");
         }
 
         // Overlapping ραντεβού για trainer

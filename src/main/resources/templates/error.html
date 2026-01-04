@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{base}">
+
+<head>
+    <title>Error</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <h1>
+        Fit Track
+        <small>/ Error</small>
+    </h1>
+</header>
+
+<section layout:fragment="main">
+
+    <h2>⚠️ Something went wrong</h2>
+
+    <p th:text="${errorMessage}">
+        Application error
+    </p>
+
+    <br/>
+
+    <a href="javascript:history.back()">← Return</a>
+
+</section>
+
+</body>
+</html>
