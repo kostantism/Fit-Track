@@ -28,8 +28,8 @@
     <div th:if="${me.type().name() == 'CUSTOMER'}">
         <h3>Customer Actions</h3>
         <ul>
-            <li><a th:href="@{/customer/goals}">Manage Goals</a></li>
-            <li><a th:href="@{/appointments/book}">Book Appointment</a></li>
+            <li><a th:href="@{/customer/customerProfile}">Manage Profile</a></li>
+            <li><a th:href="@{/customer/book}">Book Appointment</a></li>
             <li><a th:href="@{/customer/progress}">View Progress</a></li>
         </ul>
     </div>
