@@ -251,7 +251,7 @@ public class AppointmentServiceImpl implements AppointmentService {
             throw new IllegalArgumentException("Only trainer can approve appointment");
         }
 
-        if (!appointment.getTrainer().equals(trainer)) {
+        if (!appointment.getTrainer().getId().equals(trainer.getId())) {
             throw new IllegalStateException("Trainer does not own this appointment");
         }
 
@@ -262,11 +262,34 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setStatus(AppointmentStatus.APPROVED);
         Appointment saved = appointmentRepository.save(appointment);
 
-        // Κλήση εξωτερικής υπηρεσίας
         notificationService.notifyAppointmentApproved(saved);
 
         return saved;
     }
+
+//    @Override
+//    public Appointment approveAppointment(Appointment appointment, Person trainer) {
+//
+//        if (trainer.getType() != PersonType.TRAINER) {
+//            throw new IllegalArgumentException("Only trainer can approve appointment");
+//        }
+//
+//        if (!appointment.getTrainer().equals(trainer)) {
+//            throw new IllegalStateException("Trainer does not own this appointment");
+//        }
+//
+//        if (appointment.getStatus() != AppointmentStatus.PENDING) {
+//            throw new IllegalStateException("Only PENDING appointments can be approved");
+//        }
+//
+//        appointment.setStatus(AppointmentStatus.APPROVED);
+//        Appointment saved = appointmentRepository.save(appointment);
+//
+//        // Κλήση εξωτερικής υπηρεσίας
+//        notificationService.notifyAppointmentApproved(saved);
+//
+//        return saved;
+//    }
 
     @Override
     public Appointment cancelByCustomer(Appointment appointment, Person customer) {
