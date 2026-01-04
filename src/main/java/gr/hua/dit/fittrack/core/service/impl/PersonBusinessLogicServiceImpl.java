@@ -52,8 +52,6 @@ public class PersonBusinessLogicServiceImpl implements PersonBusinessLogicServic
         //TODO email must be unique
         //TODO phone number must be unique
 
-
-        //TODO encode password! raw to hash
         final String hashedPassword = passwordEncoder.encode(rawPassword);
 
 

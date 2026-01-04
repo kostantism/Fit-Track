@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer Profile</title>
+</head>
+<body>
+
+    <form th:action="@{/customer/customerProfile}" method="post">
+
+        <label>Fitness goal</label>
+        <select name="goal">
+            <option th:each="g : ${goals}"
+                    th:value="${g}"
+                    th:text="${g}"
+                    th:selected="${g == profile.goal}">
+            </option>
+        </select>
+
+        <br/><br/>
+
+        <label>Notes</label><br/>
+        <textarea name="notes"
+                  rows="5"
+                  cols="50"
+                  th:text="${profile.notes}">
+        </textarea>
+
+        <br/><br/>
+
+        <button type="submit">Save profile</button>
+    </form>
+
+
+</body>
+</html>
