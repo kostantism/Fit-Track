@@ -165,6 +165,7 @@ import gr.hua.dit.fittrack.core.repository.AppointmentRepository;
 import gr.hua.dit.fittrack.core.repository.TrainerAvailabilityRepository;
 import gr.hua.dit.fittrack.core.service.AppointmentService;
 import gr.hua.dit.fittrack.core.service.NotificationService;
+import gr.hua.dit.fittrack.core.service.PersonDataService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -178,15 +179,18 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final TrainerAvailabilityRepository availabilityRepository;
     private final NotificationService notificationService;
+    private final PersonDataService personDataService;
 
     private static final int MAX_ACTIVE_APPOINTMENTS_PER_USER = 5; // προσαρμόζεται ανά ανάγκη
 
     public AppointmentServiceImpl(AppointmentRepository appointmentRepository,
                                   TrainerAvailabilityRepository availabilityRepository,
-                                  NotificationService notificationService) {
+                                  NotificationService notificationService,
+                                  PersonDataService personDataService) {
         this.appointmentRepository = appointmentRepository;
         this.availabilityRepository = availabilityRepository;
         this.notificationService = notificationService;
+        this.personDataService = personDataService;
     }
 
     @Override
@@ -324,12 +328,68 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointmentRepository.delete(appointment);
     }
 
+//    @Override
+//    @Transactional(readOnly = true)
+//    public List<Appointment> getApprovedAppointmentsForTrainer(Person trainer) {
+//        return appointmentRepository.findByTrainerAndStatus(
+//                trainer,
+//                AppointmentStatus.APPROVED
+//        );
+//    }
+
     @Override
-    @Transactional(readOnly = true)
-    public List<Appointment> getApprovedAppointmentsForTrainer(Person trainer) {
+    public List<Appointment> getApprovedAppointmentsForTrainer(Long trainerId) {
+        Person trainer = personDataService.findPersonEntityById(trainerId);
+
+        if (trainer.getType() != PersonType.TRAINER) {
+            throw new SecurityException("Not a trainer");
+        }
+
         return appointmentRepository.findByTrainerAndStatus(
                 trainer,
                 AppointmentStatus.APPROVED
         );
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Appointment> getAppointmentsForTrainer(Long trainerId) {
+
+        Person trainer = personDataService.findPersonEntityById(trainerId);
+
+        if (trainer.getType() != PersonType.TRAINER) {
+            throw new SecurityException("Not a trainer");
+        }
+
+        return appointmentRepository.findByTrainer(trainer);
+    }
+
+    @Override
+    public void approveAppointment(Long appointmentId, Long trainerId) {
+
+        Appointment appointment = getAppointmentById(appointmentId);
+        Person trainer = personDataService.findPersonEntityById(trainerId);
+
+        if (!appointment.getTrainer().getId().equals(trainerId)) {
+            throw new SecurityException("Trainer does not own this appointment");
+        }
+
+        if (appointment.getStatus() != AppointmentStatus.PENDING) {
+            throw new IllegalStateException("Only pending appointments can be approved");
+        }
+
+        appointment.setStatus(AppointmentStatus.APPROVED);
+        appointmentRepository.save(appointment);
+
+        notificationService.notifyAppointmentApproved(appointment);
+    }
+
+    @Override
+    public void rejectAppointment(Long appointmentId) {
+
+        Appointment appointment = getAppointmentById(appointmentId);
+
+        appointment.setStatus(AppointmentStatus.REJECTED);
+        appointmentRepository.save(appointment);
     }
 }

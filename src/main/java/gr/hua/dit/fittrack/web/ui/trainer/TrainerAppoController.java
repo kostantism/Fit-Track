@@ -1,14 +1,78 @@
 package gr.hua.dit.fittrack.web.ui.trainer;
 
+//@Controller
+//@RequestMapping("/trainer/appointments")
+//@PreAuthorize("hasRole('TRAINER')")
+//public class TrainerAppoController {
+//
+//    private final AppointmentService appointmentService;
+//    private final CurrentUserProvider currentUserProvider;
+//    private final PersonRepository personRepository;
+//
+//    public TrainerAppoController(
+//            AppointmentService appointmentService,
+//            CurrentUserProvider currentUserProvider,
+//            PersonRepository personRepository
+//    ) {
+//        this.appointmentService = appointmentService;
+//        this.currentUserProvider = currentUserProvider;
+//        this.personRepository = personRepository;
+//    }
+//
+//    // 📌 Προβολή ραντεβού trainer
+//    @GetMapping
+//    public String showAppointments(Model model) {
+//
+//        long trainerId = currentUserProvider.requireTrainerId();
+//        Person trainer = personRepository.findById(trainerId)
+//                .orElseThrow();
+//
+//        List<Appointment> appointments =
+//                appointmentService.getAppointmentsForTrainer(trainer);
+//
+//        model.addAttribute("appointments", appointments);
+//        return "trainer/appointments";
+//    }
+//    // ✅ Approve
+//    @PostMapping("/{id}/approve")
+//    public String approve(@PathVariable Long id) {
+//
+//        long trainerId = currentUserProvider.requireTrainerId();
+//        Person trainer = personRepository.findById(trainerId)
+//                .orElseThrow();
+//
+//        Appointment appointment =
+//                appointmentService.getAppointmentById(id);
+//
+//        appointmentService.approveAppointment(appointment, trainer);
+//
+//        return "redirect:/trainer/appointments";
+//    }
+//
+//    // ❌ Reject
+//    @PostMapping("/{id}/reject")
+//    public String reject(@PathVariable Long id) {
+//
+//        Appointment appointment =
+//                appointmentService.getAppointmentById(id);
+//
+//        appointmentService.rejectAppointment(appointment);
+//
+//        return "redirect:/trainer/appointments";
+//    }
+//}
+
+
 import gr.hua.dit.fittrack.core.model.Appointment;
-import gr.hua.dit.fittrack.core.model.Person;
-import gr.hua.dit.fittrack.core.repository.PersonRepository;
 import gr.hua.dit.fittrack.core.security.CurrentUserProvider;
 import gr.hua.dit.fittrack.core.service.AppointmentService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
@@ -19,16 +83,13 @@ public class TrainerAppoController {
 
     private final AppointmentService appointmentService;
     private final CurrentUserProvider currentUserProvider;
-    private final PersonRepository personRepository;
 
     public TrainerAppoController(
             AppointmentService appointmentService,
-            CurrentUserProvider currentUserProvider,
-            PersonRepository personRepository
+            CurrentUserProvider currentUserProvider
     ) {
         this.appointmentService = appointmentService;
         this.currentUserProvider = currentUserProvider;
-        this.personRepository = personRepository;
     }
 
     // 📌 Προβολή ραντεβού trainer
@@ -36,27 +97,21 @@ public class TrainerAppoController {
     public String showAppointments(Model model) {
 
         long trainerId = currentUserProvider.requireTrainerId();
-        Person trainer = personRepository.findById(trainerId)
-                .orElseThrow();
 
         List<Appointment> appointments =
-                appointmentService.getAppointmentsForTrainer(trainer);
+                appointmentService.getAppointmentsForTrainer(trainerId);
 
         model.addAttribute("appointments", appointments);
         return "trainer/appointments";
     }
+
     // ✅ Approve
     @PostMapping("/{id}/approve")
     public String approve(@PathVariable Long id) {
 
         long trainerId = currentUserProvider.requireTrainerId();
-        Person trainer = personRepository.findById(trainerId)
-                .orElseThrow();
 
-        Appointment appointment =
-                appointmentService.getAppointmentById(id);
-
-        appointmentService.approveAppointment(appointment, trainer);
+        appointmentService.approveAppointment(id, trainerId);
 
         return "redirect:/trainer/appointments";
     }
@@ -65,10 +120,7 @@ public class TrainerAppoController {
     @PostMapping("/{id}/reject")
     public String reject(@PathVariable Long id) {
 
-        Appointment appointment =
-                appointmentService.getAppointmentById(id);
-
-        appointmentService.rejectAppointment(appointment);
+        appointmentService.rejectAppointment(id);
 
         return "redirect:/trainer/appointments";
     }
