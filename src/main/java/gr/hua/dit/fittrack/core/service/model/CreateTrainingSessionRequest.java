@@ -1,8 +1,6 @@
 package gr.hua.dit.fittrack.core.service.model;
 
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 public record CreateTrainingSessionRequest(
         @NotNull(message = "Appointment ID is required")
@@ -20,5 +18,4 @@ public record CreateTrainingSessionRequest(
 ) {}
 
 
-/*
-gr.hua.dit.fittrack.core.service.model; public record CreateTrainingSessionRequest( Long appointmentId, String notes, String trainingPlan ) {}*/
+

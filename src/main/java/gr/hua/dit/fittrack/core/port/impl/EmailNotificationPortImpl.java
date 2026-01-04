@@ -1,47 +1,5 @@
 package gr.hua.dit.fittrack.core.port.impl;
 
-//import gr.hua.dit.fittrack.core.port.EmailNotificationPort;
-//import org.springframework.http.HttpEntity;
-//import org.springframework.http.HttpHeaders;
-//import org.springframework.http.MediaType;
-//import org.springframework.stereotype.Service;
-//import org.springframework.web.client.RestTemplate;
-//
-//@Service
-//public class EmailNotificationPortImpl implements EmailNotificationPort {
-//
-//    private final RestTemplate restTemplate;
-//
-//    public EmailNotificationPortImpl(RestTemplate restTemplate) {
-//        this.restTemplate = restTemplate;
-//    }
-//
-//    @Override
-//    public boolean sendEmail(String toEmail, String subject, String content) {
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.setBearerAuth("abcdef"); // ή από properties
-//
-//        SendEmailRequest body =
-//                new SendEmailRequest(toEmail, subject, content);
-//
-//        HttpEntity<SendEmailRequest> entity =
-//                new HttpEntity<>(body, headers);
-//
-//        ResponseEntity<SendEmailResult> response =
-//                restTemplate.postForEntity(
-//                        "http://localhost:9000/api/v1/email",
-//                        entity,
-//                        SendEmailResult.class
-//                );
-//
-//        return response.getStatusCode().is2xxSuccessful()
-//                && response.getBody() != null
-//                && response.getBody().sent();
-//    }
-//}
-
 import gr.hua.dit.fittrack.config.RestApiClientConfig;
 import gr.hua.dit.fittrack.core.port.EmailNotificationPort;
 import gr.hua.dit.fittrack.core.port.impl.dto.SendEmailRequest;

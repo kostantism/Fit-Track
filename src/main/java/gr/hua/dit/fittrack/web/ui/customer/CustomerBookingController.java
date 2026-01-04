@@ -80,18 +80,4 @@ public class CustomerBookingController {
     }
 }
 
-//package gr.hua.dit.fittrack.web.ui.customer;
-//
-//import org.springframework.security.access.prepost.PreAuthorize;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.web.bind.annotation.GetMapping;
-//
-//@Controller
-//@PreAuthorize("hasRole('CUSTOMER')")
-//public class AppointmentBookingController {
-//
-//    @GetMapping("/appointments/book")
-//    public String book() {
-//        return "customer/book";
-//    }
-//}
+
