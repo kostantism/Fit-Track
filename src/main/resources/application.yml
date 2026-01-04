@@ -29,3 +29,11 @@ app:
     audience: "fit-track-clients"
     secret: "${JWT_SECRET:+U4BixW9hDLYU5WOC+3OvutSpIrYVcF/QkDcJ4zq5sM=}" # openssl rand -base64 32
     ttl-minutes: 60
+
+
+  #Weather
+
+weather:
+  api:
+    key: ec60dc8de5bdb1e0487195c462ab1a3f
+    base-url: https://api.openweathermap.org/data/2.5
