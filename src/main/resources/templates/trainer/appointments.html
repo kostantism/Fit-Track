@@ -32,7 +32,7 @@
         </tr>
 
         <tr th:each="a : ${appointments}">
-            <td th:text="${a.customer.fullName}"></td>
+            <td th:text="${a.customer.firstName + ' ' + a.customer.lastName}"></td>
             <td th:text="${a.startDateTime}"></td>
             <td th:text="${a.endDateTime}"></td>
             <td th:text="${a.status}"></td>
