@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Size;
  * DTO for requesting the creation (registration) of a Person.
  */
 public record CreatePersonRequest(
-        @NotNull @NotBlank @Size(max = 20) PersonType type,
+        @NotNull PersonType type,
         @NotNull @NotBlank @Size(max = 100) String firstName,
         @NotNull @NotBlank @Size(max = 100) String lastName,
         @NotNull @NotBlank @Size(max = 100) @Email String emailAddress,
