@@ -35,5 +35,5 @@ app:
 
 weather:
   api:
-    key: ec60dc8de5bdb1e0487195c462ab1a3f
+    key: f82d7117efd3bba210d05fedbe8f9300
     base-url: https://api.openweathermap.org/data/2.5
