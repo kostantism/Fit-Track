@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
     ) {
         model.addAttribute(
                 "errorMessage",
-                "Δεν έχετε δικαίωμα για αυτή την ενέργεια."
+                "You don't have permission to access this resource."
         );
         return "/error";
     }
@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
     ) {
         model.addAttribute(
                 "errorMessage",
-                "Κάτι πήγε στραβά. Παρακαλώ δοκιμάστε ξανά."
+                "Something went wrong. Please try again."
         );
         return "/error";
     }
