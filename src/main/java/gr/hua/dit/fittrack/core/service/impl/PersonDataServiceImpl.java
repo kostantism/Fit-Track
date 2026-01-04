@@ -40,6 +40,14 @@ public class PersonDataServiceImpl implements PersonDataService {
                 .toList();
     }
 
+    @Override
+    public Person findPersonEntityById(Long id) {
+        return personRepository.findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Person not found with id " + id)
+                );
+    }
+
 //    @Override
 //    public Person findPersonEntityById(Long id) {
 //        return personRepository.findById(id)

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{base}">
+
+<head>
+    <title>Book Appointment</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <h1>
+        Fit Track
+        <small>/ Profile / Book Appointment</small>
+    </h1>
+</header>
+
+<section layout:fragment="main">
+
+    <h2>Book a Training Session</h2>
+
+    <!-- ===================== -->
+    <!-- Weather preview -->
+    <!-- ===================== -->
+    <div th:if="${weather != null}">
+        <p>
+            Καιρός για <span th:text="${weather.city}"></span>:
+            <strong th:text="${weather.conditions}"></strong><br>
+            Θερμοκρασία: <span th:text="${weather.temperatureCelsius}"></span> °C<br>
+            Υγρασία: <span th:text="${weather.humidityPercent}"></span>%
+        </p>
+    </div>
+
+    <!-- ===================== -->
+    <!-- Booking form -->
+    <!-- ===================== -->
+    <form th:action="@{/customer/book}" method="post">
+
+        <div>
+            <label><strong>Select Trainer</strong></label><br/>
+            <select name="trainerId" required>
+                <option value="">-- choose trainer --</option>
+                <option th:each="t : ${trainers}"
+                        th:value="${t.id}"
+                        th:text="${t.firstName + ' ' + t.lastName}">
+                </option>
+            </select>
+        </div>
+
+        <br/>
+
+        <div>
+            <label><strong>Start date & time</strong></label><br/>
+            <input type="datetime-local"
+                   name="startDateTime"
+                   required/>
+        </div>
+
+        <br/>
+
+        <div>
+            <label><strong>End date & time</strong></label><br/>
+            <input type="datetime-local"
+                   name="endDateTime"
+                   required/>
+        </div>
+
+        <br/>
+
+        <button type="submit">
+            Book Appointment
+        </button>
+    </form>
+
+    <hr/>
+
+    <!-- ===================== -->
+    <!-- Weather lookup -->
+    <!-- ===================== -->
+    <h3>Check weather for outdoor training</h3>
+
+    <form th:action="@{/customer/book}" method="get">
+        <label>Date:</label>
+        <input type="date" name="date" required/>
+        <button type="submit">Check Weather</button>
+    </form>
+
+    <br/>
+
+    <a th:href="@{/profile}">← Back to Profile</a>
+
+</section>
+
+</body>
+</html>

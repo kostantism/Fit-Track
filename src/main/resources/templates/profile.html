@@ -28,7 +28,7 @@
     <div th:if="${me.type().name() == 'CUSTOMER'}">
         <h3>Customer Actions</h3>
         <ul>
-            <li><a th:href="@{/customer/customerProfile}">Manage Your Profile</a></li>
+            <li><a th:href="@{/customer/goals}">Manage Goals</a></li>
             <li><a th:href="@{/appointments/book}">Book Appointment</a></li>
             <li><a th:href="@{/customer/progress}">View Progress</a></li>
         </ul>
@@ -58,3 +58,42 @@
 
 
 
+<!--<!DOCTYPE html>-->
+<!--<html-->
+<!--        xmlns:th="https://www.thymeleaf.org"-->
+<!--        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
+<!--        layout:decorate="~{base}">-->
+
+<!--<head>-->
+<!--    <title>Profile</title>-->
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<header layout:fragment="header">-->
+<!--    <h1>Fit Track <small>/ Profile</small></h1>-->
+<!--</header>-->
+
+<!--<section layout:fragment="main">-->
+
+<!--    <div>-->
+<!--        <div>-->
+<!--            <a th:href="@{/profile}" th:text="'Logged in as: ' + ${me.emailAddress()} + ' (' + ${me.type()} + ')'"></a>-->
+<!--        </div>-->
+
+<!--        <hr>-->
+
+<!--        <ul>-->
+<!--            <li>-->
+<!--                <a th:href="@{/}">Homepage</a>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <a th:href="@{/logout}">Logout</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+
+<!--</section>-->
+
+<!--</body>-->
+<!--</html>-->
