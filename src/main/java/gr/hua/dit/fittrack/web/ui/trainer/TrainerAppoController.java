@@ -54,10 +54,20 @@ public class TrainerAppoController {
     }
 
     // ❌ Reject
+//    @PostMapping("/{id}/reject")
+//    public String reject(@PathVariable Long id) {
+//
+//        appointmentService.rejectAppointment(id);
+//
+//        return "redirect:/trainer/appointments";
+//    }
+
     @PostMapping("/{id}/reject")
     public String reject(@PathVariable Long id) {
 
-        appointmentService.rejectAppointment(id);
+        long trainerId = currentUserProvider.requireTrainerId();
+
+        appointmentService.rejectAppointment(id, trainerId);
 
         return "redirect:/trainer/appointments";
     }

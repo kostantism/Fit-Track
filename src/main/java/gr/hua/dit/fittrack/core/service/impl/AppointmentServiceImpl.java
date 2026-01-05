@@ -253,71 +253,71 @@ public class AppointmentServiceImpl implements AppointmentService {
         return appointmentRepository.save(appointment);
     }
 
-    @Override
-    public Appointment approveAppointment(Appointment appointment, Person trainer) {
+//    @Override
+//    public Appointment approveAppointment(Appointment appointment, Person trainer) {
+//
+//        if (trainer.getType() != PersonType.TRAINER) {
+//            throw new IllegalArgumentException("Only trainer can approve appointment");
+//        }
+//
+//        if (!appointment.getTrainer().getId().equals(trainer.getId())) {
+//            throw new IllegalStateException("Trainer does not own this appointment");
+//        }
+//
+//        if (appointment.getStatus() != AppointmentStatus.PENDING) {
+//            throw new IllegalStateException("Only PENDING appointments can be approved");
+//        }
+//
+//        appointment.setStatus(AppointmentStatus.APPROVED);
+//        Appointment saved = appointmentRepository.save(appointment);
+//
+//        notificationService.notifyAppointmentApproved(saved);
+//
+//        return saved;
+//    }
 
-        if (trainer.getType() != PersonType.TRAINER) {
-            throw new IllegalArgumentException("Only trainer can approve appointment");
-        }
+//    @Override
+//    public Appointment cancelByCustomer(Appointment appointment, Person customer) {
+//
+//        if (customer.getType() != PersonType.CUSTOMER) {
+//            throw new IllegalArgumentException("Only customer can cancel");
+//        }
+//
+//        if (!appointment.getCustomer().equals(customer)) {
+//            throw new IllegalStateException("Not your appointment");
+//        }
+//
+//        if (appointment.getStatus() == AppointmentStatus.CANCELLED ||
+//                appointment.getStatus() == AppointmentStatus.REJECTED) {
+//            throw new IllegalStateException("Appointment cannot be cancelled");
+//        }
+//
+//        appointment.setStatus(AppointmentStatus.CANCELLED);
+//        Appointment saved = appointmentRepository.save(appointment);
+//
+//        // Κλήση εξωτερικής υπηρεσίας
+//        notificationService.notifyAppointmentCancelled(saved);
+//
+//        return saved;
+//    }
 
-        if (!appointment.getTrainer().getId().equals(trainer.getId())) {
-            throw new IllegalStateException("Trainer does not own this appointment");
-        }
+//    @Override
+//    public Appointment rejectAppointment(Appointment appointment) {
+//        appointment.setStatus(AppointmentStatus.REJECTED);
+//        return appointmentRepository.save(appointment);
+//    }
 
-        if (appointment.getStatus() != AppointmentStatus.PENDING) {
-            throw new IllegalStateException("Only PENDING appointments can be approved");
-        }
+//    @Override
+//    @Transactional(readOnly = true)
+//    public List<Appointment> getAppointmentsForCustomer(Person customer) {
+//        return appointmentRepository.findByCustomer(customer);
+//    }
 
-        appointment.setStatus(AppointmentStatus.APPROVED);
-        Appointment saved = appointmentRepository.save(appointment);
-
-        notificationService.notifyAppointmentApproved(saved);
-
-        return saved;
-    }
-
-    @Override
-    public Appointment cancelByCustomer(Appointment appointment, Person customer) {
-
-        if (customer.getType() != PersonType.CUSTOMER) {
-            throw new IllegalArgumentException("Only customer can cancel");
-        }
-
-        if (!appointment.getCustomer().equals(customer)) {
-            throw new IllegalStateException("Not your appointment");
-        }
-
-        if (appointment.getStatus() == AppointmentStatus.CANCELLED ||
-                appointment.getStatus() == AppointmentStatus.REJECTED) {
-            throw new IllegalStateException("Appointment cannot be cancelled");
-        }
-
-        appointment.setStatus(AppointmentStatus.CANCELLED);
-        Appointment saved = appointmentRepository.save(appointment);
-
-        // Κλήση εξωτερικής υπηρεσίας
-        notificationService.notifyAppointmentCancelled(saved);
-
-        return saved;
-    }
-
-    @Override
-    public Appointment rejectAppointment(Appointment appointment) {
-        appointment.setStatus(AppointmentStatus.REJECTED);
-        return appointmentRepository.save(appointment);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Appointment> getAppointmentsForCustomer(Person customer) {
-        return appointmentRepository.findByCustomer(customer);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Appointment> getAppointmentsForTrainer(Person trainer) {
-        return appointmentRepository.findByTrainer(trainer);
-    }
+//    @Override
+//    @Transactional(readOnly = true)
+//    public List<Appointment> getAppointmentsForTrainer(Person trainer) {
+//        return appointmentRepository.findByTrainer(trainer);
+//    }
 
     @Override
     @Transactional(readOnly = true)
@@ -381,14 +381,14 @@ public class AppointmentServiceImpl implements AppointmentService {
         notificationService.notifyAppointmentApproved(appointment);
     }
 
-    @Override
-    public void rejectAppointment(Long appointmentId) {
-
-        Appointment appointment = getAppointmentById(appointmentId);
-
-        appointment.setStatus(AppointmentStatus.REJECTED);
-        appointmentRepository.save(appointment);
-    }
+//    @Override
+//    public void rejectAppointment(Long appointmentId) {
+//
+//        Appointment appointment = getAppointmentById(appointmentId);
+//
+//        appointment.setStatus(AppointmentStatus.REJECTED);
+//        appointmentRepository.save(appointment);
+//    }
 
     @Override
     public void cancelAppointment(Long appointmentId, Long customerId) {
@@ -437,30 +437,30 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointmentRepository.save(appointment);
     }
 
-    @Override
-    public void cancelByCustomer(Long appointmentId, Long customerId) {
-
-        Appointment appointment = getAppointmentById(appointmentId);
-        Person customer = personDataService.findPersonEntityById(customerId);
-
-        if (customer.getType() != PersonType.CUSTOMER) {
-            throw new SecurityException("Only customers can cancel appointments");
-        }
-
-        if (!appointment.getCustomer().getId().equals(customerId)) {
-            throw new SecurityException("Customer does not own this appointment");
-        }
-
-        if (appointment.getStatus() == AppointmentStatus.CANCELLED ||
-                appointment.getStatus() == AppointmentStatus.REJECTED) {
-            throw new IllegalStateException("Appointment cannot be cancelled");
-        }
-
-        appointment.setStatus(AppointmentStatus.CANCELLED);
-        appointmentRepository.save(appointment);
-
-        notificationService.notifyAppointmentCancelled(appointment);
-    }
+//    @Override
+//    public void cancelByCustomer(Long appointmentId, Long customerId) {
+//
+//        Appointment appointment = getAppointmentById(appointmentId);
+//        Person customer = personDataService.findPersonEntityById(customerId);
+//
+//        if (customer.getType() != PersonType.CUSTOMER) {
+//            throw new SecurityException("Only customers can cancel appointments");
+//        }
+//
+//        if (!appointment.getCustomer().getId().equals(customerId)) {
+//            throw new SecurityException("Customer does not own this appointment");
+//        }
+//
+//        if (appointment.getStatus() == AppointmentStatus.CANCELLED ||
+//                appointment.getStatus() == AppointmentStatus.REJECTED) {
+//            throw new IllegalStateException("Appointment cannot be cancelled");
+//        }
+//
+//        appointment.setStatus(AppointmentStatus.CANCELLED);
+//        appointmentRepository.save(appointment);
+//
+//        notificationService.notifyAppointmentCancelled(appointment);
+//    }
 
     @Override
     @Transactional(readOnly = true)

@@ -57,9 +57,20 @@ public class TrainerAppointmentController {
     // ---------------------------
     // Reject Appointment (Trainer)
     // ---------------------------
+//    @PostMapping("/{id}/reject")
+//    public void rejectAppointment(@PathVariable Long id) {
+//        appointmentService.rejectAppointment(id);
+//    }
+
     @PostMapping("/{id}/reject")
-    public void rejectAppointment(@PathVariable Long id) {
-        appointmentService.rejectAppointment(id);
+    public AppointmentDTO rejectAppointment(@PathVariable Long id) {
+
+        long trainerId = currentUserProvider.requireTrainerId();
+
+        appointmentService.rejectAppointment(id, trainerId);
+
+        Appointment appointment = appointmentService.getAppointmentById(id);
+        return toDTO(appointment);
     }
 
     // ---------------------------
