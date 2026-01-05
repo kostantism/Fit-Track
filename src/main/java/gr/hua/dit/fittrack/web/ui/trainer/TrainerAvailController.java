@@ -1,51 +1,5 @@
 package gr.hua.dit.fittrack.web.ui.trainer;
 
-//@Controller
-//@RequestMapping("/trainer/availability")
-//@PreAuthorize("hasRole('TRAINER')")
-//public class TrainerAvailController {
-//
-//    private final AvailabilityService availabilityService;
-//    private final CurrentUserProvider currentUserProvider;
-//    private final PersonRepository personRepository;
-//
-//    public TrainerAvailController(
-//            AvailabilityService availabilityService,
-//            CurrentUserProvider currentUserProvider,
-//            PersonRepository personRepository
-//    ) {
-//        this.availabilityService = availabilityService;
-//        this.currentUserProvider = currentUserProvider;
-//        this.personRepository = personRepository;
-//    }
-//
-//    // ✅ GET → εμφανίζει τη φόρμα
-//    @GetMapping
-//    public String showAvailabilityForm(Model model) {
-//        model.addAttribute("availability", new CreateAvailabilityRequest(null, null));
-//        return "trainer/availability";
-//    }
-//
-//    // ✅ POST → αποθήκευση
-//    @PostMapping
-//    public String createAvailability(
-//            @ModelAttribute CreateAvailabilityRequest request
-//    ) {
-//        long trainerId = currentUserProvider.requireTrainerId();
-//        Person trainer = personRepository.findById(trainerId).orElseThrow();
-//
-//        availabilityService.createAvailability(
-//                trainer,
-//                request.startDateTime().toLocalDate(),
-//                request.startDateTime(),
-//                request.endDateTime()
-//        );
-//
-//        return "redirect:/trainer/availability";
-//    }
-//}
-
-
 import gr.hua.dit.fittrack.core.security.CurrentUserProvider;
 import gr.hua.dit.fittrack.core.service.AvailabilityService;
 import gr.hua.dit.fittrack.core.service.model.CreateAvailabilityRequest;

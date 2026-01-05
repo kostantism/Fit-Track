@@ -8,7 +8,12 @@ import java.util.List;
 
 public interface AppointmentService {
 
-    Appointment createAppointment(Person customer, Person trainer, LocalDateTime start, LocalDateTime end);
+    Appointment createAppointment(
+            Long customerId,
+            Long trainerId,
+            LocalDateTime start,
+            LocalDateTime end
+    );
 
     Appointment approveAppointment(Appointment appointment, Person trainer);
 
@@ -24,15 +29,22 @@ public interface AppointmentService {
 
     void deleteAppointment(Long id);
 
-//    List<Appointment> getApprovedAppointmentsForTrainer(Person trainer);
-
     List<Appointment> getApprovedAppointmentsForTrainer(Long trainerId);
 
     List<Appointment> getAppointmentsForTrainer(Long trainerId);
 
-    void  approveAppointment(Long appointmentId, Long trainerId);
+    void approveAppointment(Long appointmentId, Long trainerId);
 
     void  rejectAppointment(Long appointmentId);
+
+    void rejectAppointment(Long appointmentId, Long trainerId);
+
+    void cancelByCustomer(Long appointmentId, Long customerId);
+
+    List<Appointment> getAppointmentsForCustomer(Long customerId);
+
+    void cancelAppointment(Long appointmentId, Long customerId);
+
 
 }
 

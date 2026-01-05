@@ -194,10 +194,16 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Appointment createAppointment(Person customer, Person trainer,
-                                         LocalDateTime start, LocalDateTime end) {
+    public Appointment createAppointment(
+            Long customerId,
+            Long trainerId,
+            LocalDateTime start,
+            LocalDateTime end
+    ) {
 
-        // Έλεγχος τύπων χρηστών
+        Person customer = personDataService.findPersonEntityById(customerId);
+        Person trainer = personDataService.findPersonEntityById(trainerId);
+
         if (customer.getType() != PersonType.CUSTOMER) {
             throw new IllegalArgumentException("Only customers can book appointments");
         }
@@ -205,36 +211,35 @@ public class AppointmentServiceImpl implements AppointmentService {
             throw new IllegalArgumentException("Appointment must be with a trainer");
         }
 
-        // Έλεγχος χρόνου
         if (start.isBefore(LocalDateTime.now()) || !start.isBefore(end)) {
             throw new IllegalArgumentException("Invalid appointment time");
         }
 
-        // Μέγιστος αριθμός ενεργών ραντεβού
         long activeCount = appointmentRepository.countByCustomerAndStatusIn(
                 customer,
                 List.of(AppointmentStatus.PENDING, AppointmentStatus.APPROVED)
         );
+
         if (activeCount >= MAX_ACTIVE_APPOINTMENTS_PER_USER) {
-            throw new IllegalStateException("Customer has reached max active appointments (5)");
+            throw new IllegalStateException("Max active appointments reached");
         }
 
-        // Overlapping ραντεβού για trainer
         boolean overlap = appointmentRepository
                 .existsByTrainerAndStartDateTimeLessThanAndEndDateTimeGreaterThan(
                         trainer, end, start
                 );
+
         if (overlap) {
             throw new IllegalStateException("Trainer has overlapping appointment");
         }
 
-        // Έλεγχος διαθέσιμων slots
         boolean available = availabilityRepository
                 .existsByTrainerAndStartTimeLessThanAndEndTimeGreaterThanAndStatus(
                         trainer, end, start, AvailabilityStatus.AVAILABLE
                 );
+
         if (!available) {
-            throw new IllegalStateException("Trainer is not available at this time");
+            throw new IllegalStateException("Trainer not available");
         }
 
         Appointment appointment = new Appointment(
@@ -328,14 +333,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointmentRepository.delete(appointment);
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public List<Appointment> getApprovedAppointmentsForTrainer(Person trainer) {
-//        return appointmentRepository.findByTrainerAndStatus(
-//                trainer,
-//                AppointmentStatus.APPROVED
-//        );
-//    }
 
     @Override
     public List<Appointment> getApprovedAppointmentsForTrainer(Long trainerId) {
@@ -391,5 +388,90 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         appointment.setStatus(AppointmentStatus.REJECTED);
         appointmentRepository.save(appointment);
+    }
+
+    @Override
+    public void cancelAppointment(Long appointmentId, Long customerId) {
+
+        Appointment appointment = getAppointmentById(appointmentId);
+        Person customer = personDataService.findPersonEntityById(customerId);
+
+        if (customer.getType() != PersonType.CUSTOMER) {
+            throw new IllegalArgumentException("Only customer can cancel appointment");
+        }
+
+        if (!appointment.getCustomer().getId().equals(customerId)) {
+            throw new SecurityException("Customer does not own this appointment");
+        }
+
+        if (appointment.getStatus() == AppointmentStatus.CANCELLED ||
+                appointment.getStatus() == AppointmentStatus.REJECTED) {
+            throw new IllegalStateException("Appointment cannot be cancelled");
+        }
+
+        appointment.setStatus(AppointmentStatus.CANCELLED);
+        appointmentRepository.save(appointment);
+
+        notificationService.notifyAppointmentCancelled(appointment);
+    }
+
+    @Override
+    public void rejectAppointment(Long appointmentId, Long trainerId) {
+
+        Appointment appointment = getAppointmentById(appointmentId);
+        Person trainer = personDataService.findPersonEntityById(trainerId);
+
+        if (trainer.getType() != PersonType.TRAINER) {
+            throw new SecurityException("Only trainers can reject appointments");
+        }
+
+        if (!appointment.getTrainer().getId().equals(trainerId)) {
+            throw new SecurityException("Trainer does not own this appointment");
+        }
+
+        if (appointment.getStatus() != AppointmentStatus.PENDING) {
+            throw new IllegalStateException("Only pending appointments can be rejected");
+        }
+
+        appointment.setStatus(AppointmentStatus.REJECTED);
+        appointmentRepository.save(appointment);
+    }
+
+    @Override
+    public void cancelByCustomer(Long appointmentId, Long customerId) {
+
+        Appointment appointment = getAppointmentById(appointmentId);
+        Person customer = personDataService.findPersonEntityById(customerId);
+
+        if (customer.getType() != PersonType.CUSTOMER) {
+            throw new SecurityException("Only customers can cancel appointments");
+        }
+
+        if (!appointment.getCustomer().getId().equals(customerId)) {
+            throw new SecurityException("Customer does not own this appointment");
+        }
+
+        if (appointment.getStatus() == AppointmentStatus.CANCELLED ||
+                appointment.getStatus() == AppointmentStatus.REJECTED) {
+            throw new IllegalStateException("Appointment cannot be cancelled");
+        }
+
+        appointment.setStatus(AppointmentStatus.CANCELLED);
+        appointmentRepository.save(appointment);
+
+        notificationService.notifyAppointmentCancelled(appointment);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Appointment> getAppointmentsForCustomer(Long customerId) {
+
+        Person customer = personDataService.findPersonEntityById(customerId);
+
+        if (customer.getType() != PersonType.CUSTOMER) {
+            throw new SecurityException("Not a customer");
+        }
+
+        return appointmentRepository.findByCustomer(customer);
     }
 }

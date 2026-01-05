@@ -1,15 +1,17 @@
 package gr.hua.dit.fittrack.web.ui.customer;
 
-import gr.hua.dit.fittrack.core.model.Person;
 import gr.hua.dit.fittrack.core.port.WeatherPort;
 import gr.hua.dit.fittrack.core.port.impl.dto.WeatherInfo;
+import gr.hua.dit.fittrack.core.security.CurrentUserProvider;
 import gr.hua.dit.fittrack.core.service.AppointmentService;
 import gr.hua.dit.fittrack.core.service.PersonDataService;
-import gr.hua.dit.fittrack.core.security.CurrentUserProvider;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,14 +30,15 @@ public class CustomerBookingController {
             AppointmentService appointmentService,
             PersonDataService personDataService,
             CurrentUserProvider currentUser,
-            WeatherPort weatherPort) {
-
+            WeatherPort weatherPort
+    ) {
         this.appointmentService = appointmentService;
         this.personDataService = personDataService;
         this.currentUser = currentUser;
         this.weatherPort = weatherPort;
     }
 
+    // 📌 Φόρμα κράτησης
     @GetMapping
     public String bookForm(
             @RequestParam(required = false) LocalDate date,
@@ -54,8 +57,7 @@ public class CustomerBookingController {
         return "customer/book";
     }
 
-
-
+    // 💾 Υποβολή κράτησης
     @PostMapping
     public String submitBooking(
             @RequestParam Long trainerId,
@@ -63,15 +65,11 @@ public class CustomerBookingController {
             @RequestParam String endDateTime
     ) {
 
-        // current logged-in customer
         Long customerId = currentUser.requireCustomerId();
 
-        Person customer = personDataService.findPersonEntityById(customerId);
-        Person trainer = personDataService.findPersonEntityById(trainerId);
-
         appointmentService.createAppointment(
-                customer,
-                trainer,
+                customerId,
+                trainerId,
                 LocalDateTime.parse(startDateTime),
                 LocalDateTime.parse(endDateTime)
         );

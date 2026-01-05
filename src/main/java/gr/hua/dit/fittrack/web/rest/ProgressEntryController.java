@@ -1,6 +1,5 @@
 package gr.hua.dit.fittrack.web.rest;
 
-import gr.hua.dit.fittrack.core.model.Person;
 import gr.hua.dit.fittrack.core.port.impl.dto.ProgressEntryDTO;
 import gr.hua.dit.fittrack.core.service.ProgressService;
 import gr.hua.dit.fittrack.core.service.model.CreateProgressEntryRequest;

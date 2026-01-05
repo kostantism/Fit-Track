@@ -1,11 +1,12 @@
 package gr.hua.dit.fittrack.web.ui.customer;
 
+
 import gr.hua.dit.fittrack.core.model.CustomerProfile;
 import gr.hua.dit.fittrack.core.model.FitnessGoal;
 import gr.hua.dit.fittrack.core.model.Person;
-import gr.hua.dit.fittrack.core.repository.PersonRepository;
 import gr.hua.dit.fittrack.core.security.CurrentUserProvider;
 import gr.hua.dit.fittrack.core.service.CustomerProfileService;
+import gr.hua.dit.fittrack.core.service.PersonDataService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,16 +21,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CustomerProfileController {
 
     private final CustomerProfileService profileService;
-    private final PersonRepository personRepository;
+    private final PersonDataService personDataService;
     private final CurrentUserProvider currentUserProvider;
 
     public CustomerProfileController(
             CustomerProfileService profileService,
-            PersonRepository personRepository,
+            PersonDataService personDataService,
             CurrentUserProvider currentUserProvider
     ) {
         this.profileService = profileService;
-        this.personRepository = personRepository;
+        this.personDataService = personDataService;
         this.currentUserProvider = currentUserProvider;
     }
 
@@ -37,7 +38,7 @@ public class CustomerProfileController {
     public String showProfile(Model model) {
 
         long customerId = currentUserProvider.requireCustomerId();
-        Person customer = personRepository.findById(customerId).orElseThrow();
+        Person customer = personDataService.findPersonEntityById(customerId);
 
         CustomerProfile profile =
                 profileService.getOrCreateProfile(customer);
@@ -54,7 +55,7 @@ public class CustomerProfileController {
             @RequestParam(required = false) String notes
     ) {
         long customerId = currentUserProvider.requireCustomerId();
-        Person customer = personRepository.findById(customerId).orElseThrow();
+        Person customer = personDataService.findPersonEntityById(customerId);
 
         profileService.updateProfile(customer, goal, notes);
 
