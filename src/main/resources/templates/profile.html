@@ -24,7 +24,6 @@
 
     <hr>
 
-    <!-- CUSTOMER SECTION -->
     <div th:if="${me.type().name() == 'CUSTOMER'}">
         <h3>Customer Actions</h3>
         <ul>
@@ -34,7 +33,6 @@
         </ul>
     </div>
 
-    <!-- TRAINER SECTION -->
     <div th:if="${me.type().name() == 'TRAINER'}">
         <h3>Trainer Actions</h3>
         <ul>

@@ -21,9 +21,6 @@
 
     <h2>Book a Training Session</h2>
 
-    <!-- ===================== -->
-    <!-- Weather preview -->
-    <!-- ===================== -->
     <div th:if="${weather != null}">
         <p>
             Καιρός για <span th:text="${weather.city}"></span>:
@@ -33,9 +30,6 @@
         </p>
     </div>
 
-    <!-- ===================== -->
-    <!-- Booking form -->
-    <!-- ===================== -->
     <form th:action="@{/customer/book}" method="post">
 
         <div>
@@ -76,9 +70,6 @@
 
     <hr/>
 
-    <!-- ===================== -->
-    <!-- Weather lookup -->
-    <!-- ===================== -->
     <h3>Check weather for outdoor training</h3>
 
     <form th:action="@{/customer/book}" method="get">

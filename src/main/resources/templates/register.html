@@ -14,10 +14,8 @@
 
 <section layout:fragment="main">
 
-    <!-- REGISTRATION FORM -->
     <form th:action="@{/register}" method="post" th:object="${createPersonRequest}">
 
-        <!-- ERROR MESSAGE -->
         <div class="text-center mb-3" th:if="${errorMessage != null}">
             <p class="text-danger m-0 p-0" th:text="${errorMessage}"></p>
         </div>
@@ -68,7 +66,6 @@
             <button type="submit" class="btn btn-primary">Register</button>
         </div>
 
-        <!-- USEFUL LINKS -->
         <p><a th:href="@{/login}">Already have an account? Sign in</a></p>
 
     </form>

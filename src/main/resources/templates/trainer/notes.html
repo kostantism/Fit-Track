@@ -40,10 +40,6 @@
             <span th:text="${#temporals.format(appt.endDateTime, 'HH:mm')}"></span>
         </p>
 
-        >
-        <!-- ===================== -->
-        <!-- ΥΠΑΡΧΕΙ SESSION -->
-        <!-- ===================== -->
         <div th:if="${appt.trainingSession != null}">
 
             <h5>Notes</h5>
@@ -58,9 +54,6 @@
             </p>
         </div>
 
-        <!-- ===================== -->
-        <!-- ΔΕΝ ΥΠΑΡΧΕΙ SESSION -->
-        <!-- ===================== -->
         <div th:if="${appt.trainingSession == null}">
 
             <form th:action="@{/trainer/notes/{id}(id=${appt.id})}"
