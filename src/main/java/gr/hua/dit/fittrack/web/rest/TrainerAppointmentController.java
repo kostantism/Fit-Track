@@ -26,9 +26,6 @@ public class TrainerAppointmentController {
         this.currentUserProvider = currentUserProvider;
     }
 
-    // ---------------------------
-    // Create Appointment (Customer)
-    // ---------------------------
     @PostMapping
     public AppointmentDTO createAppointment(
             @RequestBody @Valid CreateAppointmentRequest request
@@ -45,22 +42,12 @@ public class TrainerAppointmentController {
         return toDTO(appointment);
     }
 
-    // ---------------------------
-    // Approve Appointment (Trainer)
-    // ---------------------------
+
     @PostMapping("/{id}/approve")
     public void approveAppointment(@PathVariable Long id) {
         long trainerId = currentUserProvider.requireTrainerId();
         appointmentService.approveAppointment(id, trainerId);
     }
-
-    // ---------------------------
-    // Reject Appointment (Trainer)
-    // ---------------------------
-//    @PostMapping("/{id}/reject")
-//    public void rejectAppointment(@PathVariable Long id) {
-//        appointmentService.rejectAppointment(id);
-//    }
 
     @PostMapping("/{id}/reject")
     public AppointmentDTO rejectAppointment(@PathVariable Long id) {
@@ -73,18 +60,12 @@ public class TrainerAppointmentController {
         return toDTO(appointment);
     }
 
-    // ---------------------------
-    // Cancel Appointment (Customer)
-    // ---------------------------
     @PostMapping("/{id}/cancel")
     public void cancelAppointment(@PathVariable Long id) {
         long customerId = currentUserProvider.requireCustomerId();
         appointmentService.cancelAppointment(id, customerId);
     }
 
-    //---------------------------
-    // Get Appointments for Customer
-    // ---------------------------
     @GetMapping("/my")
     public List<AppointmentDTO> getMyAppointments() {
         long customerId = currentUserProvider.requireCustomerId();
@@ -95,9 +76,6 @@ public class TrainerAppointmentController {
                 .toList();
     }
 
-    // ---------------------------
-    // Get Appointments for Trainer
-    // ---------------------------
     @GetMapping("/trainer")
     public List<AppointmentDTO> getTrainerAppointments() {
         long trainerId = currentUserProvider.requireTrainerId();

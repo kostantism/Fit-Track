@@ -12,16 +12,12 @@ import java.util.Optional;
 public interface TrainerProfileRepository
         extends JpaRepository<TrainerProfile, Long> {
 
-    // 🔹 Όλοι οι trainers (public view)
     List<TrainerProfile> findAll();
 
-    // 🔹 Φίλτρο ανά περιοχή
     List<TrainerProfile> findByAreaIgnoreCase(String area);
 
-    // 🔹 Φίλτρο ανά ειδικότητα
     List<TrainerProfile> findBySpecializationIgnoreCase(String specialization);
 
-    // 🔹 Συνδυαστικό φίλτρο
     List<TrainerProfile> findByAreaIgnoreCaseAndSpecializationIgnoreCase(
             String area,
             String specialization

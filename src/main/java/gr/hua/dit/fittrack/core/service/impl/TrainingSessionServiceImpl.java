@@ -44,35 +44,28 @@ public class TrainingSessionServiceImpl implements TrainingSessionService {
     @Override
     public TrainingSession createSession(Long appointmentId, Long trainerId, String notes, String trainingPlan) {
 
-        // Βρες appointment
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new IllegalArgumentException("Appointment not found"));
 
-        // Βρες trainer
         Person trainer = personRepository.findById(trainerId)
                 .orElseThrow(() -> new IllegalArgumentException("Trainer not found"));
 
-        // ❌ Μόνο trainer μπορεί να δημιουργήσει session
         if (trainer.getType() != PersonType.TRAINER) {
             throw new IllegalArgumentException("Only trainer can create a session");
         }
 
-        // ❌ Ο trainer πρέπει να είναι ιδιοκτήτης του appointment
         if (!appointment.getTrainer().equals(trainer)) {
             throw new IllegalStateException("Trainer does not own appointment");
         }
 
-        // ❌ Το appointment πρέπει να είναι APPROVED
         if (appointment.getStatus() != AppointmentStatus.APPROVED) {
             throw new IllegalStateException("Session allowed only for APPROVED appointment");
         }
 
-        // ❌ Μόνο ένα session ανά appointment
         if (sessionRepository.findByAppointmentId(appointmentId).isPresent()) {
             throw new IllegalStateException("Session already exists for this appointment");
         }
 
-        // Δημιουργία session
         TrainingSession session = new TrainingSession();
         session.setAppointment(appointment);
         session.setTrainer(trainer);

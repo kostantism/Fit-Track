@@ -24,7 +24,6 @@ public class ProgressEntryController {
         this.currentUserProvider = currentUserProvider;
     }
 
-    // 🔹 Create new progress entry
     @PostMapping
     public ProgressEntryDTO createProgressEntry(@Valid @RequestBody CreateProgressEntryRequest request) {
         Long customerId = currentUserProvider.requireCustomerId();
@@ -32,7 +31,6 @@ public class ProgressEntryController {
         return toDTO(entry);
     }
 
-    // 🔹 Get all progress entries for current user
     @GetMapping
     public List<ProgressEntryDTO> getAllProgressEntries() {
         Long customerId = currentUserProvider.requireCustomerId();
@@ -41,7 +39,6 @@ public class ProgressEntryController {
                 .collect(Collectors.toList());
     }
 
-    // 🔹 Convert ProgressEntryView to DTO
     private ProgressEntryDTO toDTO(ProgressEntryView view) {
         return new ProgressEntryDTO(
                 view.id(),

@@ -15,10 +15,6 @@ public class Appointment {
     @Column(name = "id")
     private Long id;
 
-    // =====================
-    // Relations
-    // =====================
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "trainer_id", nullable = false)
     private Person trainer;
@@ -30,35 +26,20 @@ public class Appointment {
     @OneToOne(mappedBy = "appointment")
     private TrainingSession trainingSession;
 
-    // =====================
-    // Time window
-    // =====================
-
     @Column(name = "start_datetime", nullable = false)
     private LocalDateTime startDateTime;
 
     @Column(name = "end_datetime", nullable = false)
     private LocalDateTime endDateTime;
 
-    // =====================
-    // Status
-    // =====================
-
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
     private AppointmentStatus status;
-
-    // =====================
-    // Metadata
-    // =====================
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    // =====================
-    // Constructors
-    // =====================
 
     public Appointment() {
     }
@@ -74,10 +55,6 @@ public class Appointment {
         this.endDateTime = endDateTime;
         this.status = status;
     }
-
-    // =====================
-    // Getters & Setters
-    // =====================
 
     public Long getId() {
         return id;
@@ -134,10 +111,6 @@ public class Appointment {
     public void setTrainingSession(TrainingSession trainingSession) {
         this.trainingSession = trainingSession;
     }
-
-    // =====================
-    // toString
-    // =====================
 
     @Override
     public String toString() {

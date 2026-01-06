@@ -8,16 +8,13 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 @Repository
 public interface TrainerAvailabilityRepository
         extends JpaRepository<TrainerAvailability, Long> {
 
-    /**
-     * Επιστρέφει όλες τις διαθεσιμότητες ενός trainer για συγκεκριμένη ημερομηνία
-     */
+
     List<TrainerAvailability> findByTrainerAndDate(Person trainer, LocalDate date);
 
 
@@ -28,13 +25,6 @@ public interface TrainerAvailabilityRepository
             AvailabilityStatus status
     );
 
-
-    /**
-     * Έλεγχος αν υπάρχει overlapping availability slot για trainer
-     *
-     * Overlap logic:
-     * existing.start < newEnd AND existing.end > newStart
-     */
     boolean existsByTrainerAndDateAndStartTimeLessThanAndEndTimeGreaterThan(
             Person trainer,
             LocalDate date,

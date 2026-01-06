@@ -31,7 +31,6 @@ public class PersonDataServiceImpl implements PersonDataService {
                 .toList();
     }
 
-    //  ΝΕΟ
     @Override
     public List<PersonView> getAllTrainers() {
         return personRepository.findByType(PersonType.TRAINER)

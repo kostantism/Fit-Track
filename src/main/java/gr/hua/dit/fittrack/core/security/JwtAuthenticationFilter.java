@@ -48,14 +48,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return !path.startsWith("/api/v1");
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     protected void doFilterInternal(final HttpServletRequest request,
                                     final HttpServletResponse response,
                                     final FilterChain filterChain) throws ServletException, IOException {
         final String authorizationHeader = request.getHeader("Authorization");
 
-        // No header or not Bearer? -> Let the request continue unauthenticated.
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -67,25 +65,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final String subject = claims.getSubject();
             final Collection<String> roles = (Collection<String>) claims.get("roles");
 
-            // Convert String to GrantedAuthority
             final var authorities =
                     roles == null
-                            ? List.<GrantedAuthority>of() // empty list
+                            ? List.<GrantedAuthority>of()
                             : roles.stream().map(role ->
                             new SimpleGrantedAuthority("ROLE_" + role)).toList();
 
-            // Create User.
             final User principal = new User(subject, "", authorities);
             final UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(principal, null, authorities);
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         } catch (Exception ex) {
-            // Invalid Token or Internal error.
             LOGGER.warn("JwtAuthenticationFilter failed", ex);
             this.writeError(response);
-            return; // stop here, i.e, next filters are ignored.
+            return;
         }
 
-        filterChain.doFilter(request, response); // next filter.
+        filterChain.doFilter(request, response);
     }
 }

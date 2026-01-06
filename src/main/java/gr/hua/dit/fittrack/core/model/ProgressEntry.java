@@ -14,17 +14,9 @@ public class ProgressEntry {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    // =====================
-    // Relations
-    // =====================
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
     private Person customer;
-
-    // =====================
-    // Progress data
-    // =====================
 
     @Column(nullable = false)
     private LocalDate entryDate;
@@ -37,10 +29,6 @@ public class ProgressEntry {
 
     @Column(length = 500)
     private String notes;
-
-    // =====================
-    // Metadata
-    // =====================
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -62,7 +50,6 @@ public class ProgressEntry {
         this.notes = notes;
     }
 
-    // Getters only (immutable-ish domain)
     public Long getId() { return id; }
     public Person getCustomer() { return customer; }
     public LocalDate getEntryDate() { return entryDate; }

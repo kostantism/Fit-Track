@@ -24,7 +24,6 @@ public class TrainerProfile {
     private String bio;
 
     protected TrainerProfile() {
-        // for JPA
     }
 
     public TrainerProfile(
@@ -42,7 +41,6 @@ public class TrainerProfile {
         this.bio = bio;
     }
 
-    // ===== getters μόνο (read-only public view) =====
 
     public Long getId() {
         return id;

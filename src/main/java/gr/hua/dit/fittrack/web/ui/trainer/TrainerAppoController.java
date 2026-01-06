@@ -29,7 +29,6 @@ public class TrainerAppoController {
         this.currentUserProvider = currentUserProvider;
     }
 
-    // 📌 Προβολή ραντεβού trainer
     @GetMapping
     public String showAppointments(Model model) {
 
@@ -42,7 +41,6 @@ public class TrainerAppoController {
         return "trainer/appointments";
     }
 
-    // ✅ Approve
     @PostMapping("/{id}/approve")
     public String approve(@PathVariable Long id) {
 
@@ -53,14 +51,6 @@ public class TrainerAppoController {
         return "redirect:/trainer/appointments";
     }
 
-    // ❌ Reject
-//    @PostMapping("/{id}/reject")
-//    public String reject(@PathVariable Long id) {
-//
-//        appointmentService.rejectAppointment(id);
-//
-//        return "redirect:/trainer/appointments";
-//    }
 
     @PostMapping("/{id}/reject")
     public String reject(@PathVariable Long id) {

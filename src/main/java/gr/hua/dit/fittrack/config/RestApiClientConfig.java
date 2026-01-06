@@ -7,7 +7,6 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class RestApiClientConfig {
 
-    // @future Get me from application properties!
     public static final String WEATHER_BASE_URL = "https://api.openweathermap.org";
     public static final String WEATHER_API_KEY = "api key";
 

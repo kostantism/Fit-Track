@@ -13,22 +13,17 @@ import java.util.Optional;
 @Repository
 public interface TrainingSessionRepository extends JpaRepository<TrainingSession, Long> {
 
-    // 🔍 Όλα τα sessions ενός trainer
     List<TrainingSession> findByTrainer(Person trainer);
 
-    // 🔍 Όλα τα sessions ενός customer
     List<TrainingSession> findByCustomer(Person customer);
 
-    // 🔍 Session που αντιστοιχεί σε συγκεκριμένο appointment
     Optional<TrainingSession> findByAppointmentId(Long appointmentId);
 
-    // ❌ Overlapping sessions για trainer (ασφάλεια)
     boolean existsByTrainerAndStartTimeLessThanAndEndTimeGreaterThan(
             Person trainer,
             LocalDateTime endTime,
             LocalDateTime startTime
     );
 
-    // 📊 Active / planned sessions ενός customer
     long countByCustomerAndStatus(Person customer, TrainingSessionStatus status);
 }

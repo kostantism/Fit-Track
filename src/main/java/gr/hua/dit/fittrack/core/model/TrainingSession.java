@@ -14,17 +14,14 @@ public class TrainingSession {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // 🔗 Συνδέεται με Appointment
     @OneToOne(optional = false)
     @JoinColumn(name = "appointment_id", nullable = false, unique = true)
     private Appointment appointment;
 
-    // 👤 Trainer
     @ManyToOne(optional = false)
     @JoinColumn(name = "trainer_id", nullable = false)
     private Person trainer;
 
-    // 👤 Customer
     @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
     private Person customer;
@@ -49,23 +46,9 @@ public class TrainingSession {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    // 🔹 Constructors
     public TrainingSession() {
     }
 
-//    public TrainingSession(Appointment appointment,
-//                           Person trainer,
-//                           Person customer,
-//                           LocalDateTime startTime,
-//                           LocalDateTime endTime,
-//                           TrainingSessionStatus status) {
-//        this.appointment = appointment;
-//        this.trainer = trainer;
-//        this.customer = customer;
-//        this.startTime = startTime;
-//        this.endTime = endTime;
-//        this.status = status;
-//    }
 
     public TrainingSession(Long id, Appointment appointment, Person trainer, Person customer, LocalDateTime startTime, LocalDateTime endTime, TrainingSessionStatus status, String notes, String trainingPlan, Instant createdAt) {
         this.id = id;
@@ -79,8 +62,6 @@ public class TrainingSession {
         this.trainingPlan = trainingPlan;
         this.createdAt = createdAt;
     }
-
-    // 🔹 Getters & Setters
 
     public Long getId() {
         return id;

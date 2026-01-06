@@ -20,7 +20,6 @@ public class TrainingSessionRestController {
         this.trainingSessionService = trainingSessionService;
     }
 
-    // 🔹 Get all sessions
     @GetMapping
     public List<TrainingSessionDTO> getAllSessions() {
         return trainingSessionService.getAllSessions().stream()
@@ -28,14 +27,12 @@ public class TrainingSessionRestController {
                 .collect(Collectors.toList());
     }
 
-    // 🔹 Get session by id
     @GetMapping("/{id}")
     public TrainingSessionDTO getSession(@PathVariable Long id) {
         TrainingSession session = trainingSessionService.getSessionById(id);
         return toDTO(session);
     }
 
-    // 🔹 Create new session
     @PostMapping
     public TrainingSessionDTO createSession(@Valid @RequestBody CreateTrainingSessionRequest request) {
         TrainingSession session = trainingSessionService.createSession(
@@ -47,13 +44,11 @@ public class TrainingSessionRestController {
         return toDTO(session);
     }
 
-    // 🔹 Delete session
     @DeleteMapping("/{id}")
     public void deleteSession(@PathVariable Long id) {
         trainingSessionService.deleteSession(id);
     }
 
-    // 🔹 Convert entity to DTO
     private TrainingSessionDTO toDTO(TrainingSession session) {
         Long customerId = session.getCustomer() != null ? session.getCustomer().getId() : null;
         return new TrainingSessionDTO(

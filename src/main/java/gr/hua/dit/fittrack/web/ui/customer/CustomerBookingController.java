@@ -38,7 +38,6 @@ public class CustomerBookingController {
         this.weatherPort = weatherPort;
     }
 
-    // 📌 Φόρμα κράτησης
     @GetMapping
     public String bookForm(
             @RequestParam(required = false) LocalDate date,
@@ -57,7 +56,6 @@ public class CustomerBookingController {
         return "customer/book";
     }
 
-    // 💾 Υποβολή κράτησης
     @PostMapping
     public String submitBooking(
             @RequestParam Long trainerId,

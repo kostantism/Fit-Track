@@ -6,7 +6,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 @Entity
 @Table(name = "trainer_availability")
@@ -52,8 +51,6 @@ public class TrainerAvailability {
         this.endTime = endTime;
         this.status = status;
     }
-
-    // Getters & Setters
 
     public Long getId() {
         return id;

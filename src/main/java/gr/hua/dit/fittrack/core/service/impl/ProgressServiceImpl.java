@@ -45,7 +45,6 @@ public class ProgressServiceImpl implements ProgressService {
             throw new IllegalArgumentException("At least one metric must be provided");
         }
 
-        //καινουρια προσθηκη
         if (request.entryDate().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Cannot create progress entry for a future date");
         }

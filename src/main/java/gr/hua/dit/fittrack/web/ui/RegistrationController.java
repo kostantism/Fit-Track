@@ -56,7 +56,7 @@ public class RegistrationController {
             final Model model) {
 
         if (AuthUtils.isAuthenticated(authentication)) {
-            return "redirect:/profile"; // already logged in.
+            return "redirect:/profile";
         }
 
         if (bindingResult.hasErrors()) {

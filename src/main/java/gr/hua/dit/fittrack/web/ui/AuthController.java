@@ -23,7 +23,6 @@ public class AuthController {
             return "redirect:/profile";
         }
 
-        // Spring Security appends ?error or ?logout; show friendly messages.
         if (request.getParameter("error") != null) {
             model.addAttribute("error", "Invalid email or password.");
         }

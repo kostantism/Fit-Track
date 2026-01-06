@@ -10,7 +10,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-@Service   // ⬅️ ΑΠΑΡΑΙΤΗΤΟ για autowiring
+@Service
 public class EmailNotificationPortImpl implements EmailNotificationPort {
 
     private static final Logger LOGGER =

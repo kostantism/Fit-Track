@@ -30,7 +30,6 @@ public class CustomerProgressController {
         this.currentUserProvider = currentUserProvider;
     }
 
-    // 📌 Προβολή προόδου
     @GetMapping
     public String showProgress(Model model) {
 
@@ -41,7 +40,6 @@ public class CustomerProgressController {
 
         model.addAttribute("progress", progress);
 
-        // φόρμα νέας εγγραφής
         model.addAttribute(
                 "progressForm",
                 new CreateProgressEntryRequest(
@@ -55,7 +53,6 @@ public class CustomerProgressController {
         return "customer/progress";
     }
 
-    // 💾 Καταχώρηση νέας προόδου
     @PostMapping
     public String saveProgress(
             @Valid @ModelAttribute("progressForm") CreateProgressEntryRequest request,

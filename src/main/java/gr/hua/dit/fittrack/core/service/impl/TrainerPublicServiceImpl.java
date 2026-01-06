@@ -30,7 +30,6 @@ public class TrainerPublicServiceImpl implements TrainerPublicService {
     @Override
     public List<TrainerPublicView> listPublicTrainers() {
 
-        // μόνο TRAINER users
         List<Person> trainers = personRepository.findByType(PersonType.TRAINER);
 
         return trainers.stream()

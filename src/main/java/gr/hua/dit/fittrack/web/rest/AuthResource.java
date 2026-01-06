@@ -63,7 +63,6 @@ public class AuthResource {
         );
     }
 
-    // 🆕 REGISTER (REST)
     @PostMapping("/register")
     public CreatePersonResult register(
             @RequestBody @Valid RegisterRequest request
