@@ -19,8 +19,8 @@ public class PersonMapper {
                 person.getId(),
                 person.getFirstName(),
                 person.getLastName(),
-                person.getEmailAddress(),
                 person.getMobilePhoneNumber(),
+                person.getEmailAddress(),
                 person.getType()
         );
 
