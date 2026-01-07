@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: fittrack-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: fittrack
+      POSTGRES_USER: fittrackusr
+      POSTGRES_PASSWORD: fittrackpass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
