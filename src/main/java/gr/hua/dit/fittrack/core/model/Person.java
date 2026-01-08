@@ -1,19 +1,14 @@
 package gr.hua.dit.fittrack.core.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
 
 @Entity
-@Table(name = "person")
+@Table(name = "person",
+uniqueConstraints = {@UniqueConstraint(columnNames = "email_address"),
+        @UniqueConstraint(columnNames = "mobile_phone_number")})
 public class Person {
 
     @Id

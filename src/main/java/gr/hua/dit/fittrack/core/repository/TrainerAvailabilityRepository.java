@@ -31,4 +31,10 @@ public interface TrainerAvailabilityRepository
             LocalDateTime endTime,
             LocalDateTime startTime
     );
+
+    List<TrainerAvailability> findByTrainerAndDateAndStatus(
+            Person trainer,
+            LocalDate date,
+            AvailabilityStatus status
+    );
 }

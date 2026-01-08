@@ -52,7 +52,7 @@
 
         <div class="mb-3">
             <label class="form-label">Mobile Phone Number:</label>
-            <input type="tel" name="mobilePhoneNumber" th:field="*{mobilePhoneNumber}" class="form-control" required />
+            <input type="tel" name="mobilePhoneNumber" th:field="*{mobilePhoneNumber}" pattern="^\+?[0-9]{12,15}$" inputmode="numeric" placeholder="+3069XXXXXXXX" class="form-control" required />
             <div class="text-danger small mt-1" th:if="${#fields.hasErrors('mobilePhoneNumber')}" th:errors="*{mobilePhoneNumber}"></div>
         </div>
 
