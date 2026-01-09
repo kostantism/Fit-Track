@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{base}">
+
+<head>
+    <title>My Appointments</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <h1>
+        Fit Track
+        <small>/ Profile / My Appointments</small>
+    </h1>
+</header>
+
+<section layout:fragment="main">
+
+    <h2>My Appointments</h2>
+
+    <div th:if="${appointments.isEmpty()}">
+        <p>You have no appointments.</p>
+    </div>
+
+    <table th:if="${!appointments.isEmpty()}" border="1" cellpadding="5">
+        <tr>
+            <th>Trainer</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+
+        <tr th:each="a : ${appointments}">
+            <td th:text="${a.trainer.firstName + ' ' + a.trainer.lastName}"></td>
+            <td th:text="${a.startDateTime}"></td>
+            <td th:text="${a.endDateTime}"></td>
+            <td th:text="${a.status}"></td>
+
+            <td>
+                <form th:if="${a.status.name() == 'PENDING' or a.status.name() == 'APPROVED'}"
+                      th:action="@{/customer/appointments/{id}/cancel(id=${a.id})}"
+                      method="post">
+                    <button type="submit">Cancel</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    <br/>
+    <a th:href="@{/profile}">← Back to Profile</a>
+
+</section>
+
+</body>
+</html>

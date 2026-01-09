@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{base}">
+
+<head>
+    <title>Customer Overview</title>
+</head>
+
+<body>
+
+<header layout:fragment="header">
+    <h1>
+        Fit Track
+        <small>/ Trainer / Customer Overview</small>
+    </h1>
+</header>
+
+<section layout:fragment="main">
+
+    <h2 th:text="${customer.customerName}"></h2>
+
+    <h3>Fitness Goal</h3>
+    <p th:text="${customer.goal}"></p>
+
+    <h3>Customer Notes</h3>
+    <p th:text="${customer.profileNotes} ?: 'No notes provided'"></p>
+
+    <hr/>
+
+    <h3>Progress History</h3>
+
+    <table border="1" cellpadding="5"
+           th:if="${!customer.progress.isEmpty()}">
+        <tr>
+            <th>Date</th>
+            <th>Weight (kg)</th>
+            <th>Run Time (sec)</th>
+            <th>Notes</th>
+        </tr>
+
+        <tr th:each="p : ${customer.progress}">
+            <td th:text="${p.entryDate()}"></td>
+            <td th:text="${p.weightKg()}"></td>
+            <td th:text="${p.runTimeSeconds()}"></td>
+            <td th:text="${p.notes()}"></td>
+        </tr>
+    </table>
+
+    <p th:if="${customer.progress.isEmpty()}">
+        No progress entries yet.
+    </p>
+
+    <br/>
+    <a th:href="@{/trainer/appointments}">← Back</a>
+
+</section>
+
+</body>
+</html>

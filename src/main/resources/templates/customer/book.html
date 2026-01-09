@@ -1,93 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html-->
-<!--        xmlns:th="https://www.thymeleaf.org"-->
-<!--        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
-<!--        layout:decorate="~{base}">-->
-
-<!--<head>-->
-<!--    <title>Book Appointment</title>-->
-<!--</head>-->
-
-<!--<body>-->
-
-<!--<header layout:fragment="header">-->
-<!--    <h1>-->
-<!--        Fit Track-->
-<!--        <small>/ Profile / Book Appointment</small>-->
-<!--    </h1>-->
-<!--</header>-->
-
-<!--<section layout:fragment="main">-->
-
-<!--    <h2>Book a Training Session</h2>-->
-
-<!--    <div th:if="${weather != null}">-->
-<!--        <p>-->
-<!--            Καιρός για <span th:text="${weather.city}"></span>:-->
-<!--            <strong th:text="${weather.conditions}"></strong><br>-->
-<!--            Θερμοκρασία: <span th:text="${weather.temperatureCelsius}"></span> °C<br>-->
-<!--            Υγρασία: <span th:text="${weather.humidityPercent}"></span>%-->
-<!--        </p>-->
-<!--    </div>-->
-
-<!--    <form th:action="@{/customer/book}" method="post">-->
-
-<!--        <div>-->
-<!--            <label><strong>Select Trainer</strong></label><br/>-->
-<!--            <select name="trainerId" required>-->
-<!--                <option value="">&#45;&#45; choose trainer &#45;&#45;</option>-->
-<!--                <option th:each="t : ${trainers}"-->
-<!--                        th:value="${t.id}"-->
-<!--                        th:text="${t.firstName + ' ' + t.lastName}">-->
-<!--                </option>-->
-<!--            </select>-->
-<!--        </div>-->
-
-<!--        <br/>-->
-
-<!--        <div>-->
-<!--            <label><strong>Start date & time</strong></label><br/>-->
-<!--            <input type="datetime-local"-->
-<!--                   name="startDateTime"-->
-<!--                   required/>-->
-<!--        </div>-->
-
-<!--        <br/>-->
-
-<!--        <div>-->
-<!--            <label><strong>End date & time</strong></label><br/>-->
-<!--            <input type="datetime-local"-->
-<!--                   name="endDateTime"-->
-<!--                   required/>-->
-<!--        </div>-->
-
-<!--        <br/>-->
-
-<!--        <button type="submit">-->
-<!--            Book Appointment-->
-<!--        </button>-->
-<!--    </form>-->
-
-<!--    <hr/>-->
-
-<!--    <h3>Check weather for outdoor training</h3>-->
-
-<!--    <form th:action="@{/customer/book}" method="get">-->
-<!--        <label>Date:</label>-->
-<!--        <input type="date" name="date" required/>-->
-<!--        <button type="submit">Check Weather</button>-->
-<!--    </form>-->
-
-<!--    <br/>-->
-
-<!--    <a th:href="@{/profile}">← Back to Profile</a>-->
-
-<!--</section>-->
-
-<!--</body>-->
-<!--</html>-->
-
-
 <!DOCTYPE html>
 <html
         xmlns:th="https://www.thymeleaf.org"
@@ -111,20 +21,10 @@
 
     <h2>Book a Training Session</h2>
 
-    <!-- ================= WEATHER ================= -->
-
-<!--    <div th:if="${weather != null}">-->
-<!--        <p>-->
-<!--            Καιρός για <span th:text="${weather.city}"></span>:-->
-<!--            <strong th:text="${weather.conditions}"></strong><br>-->
-<!--            Θερμοκρασία: <span th:text="${weather.temperatureCelsius}"></span> °C<br>-->
-<!--            Υγρασία: <span th:text="${weather.humidityPercent}"></span>%-->
-<!--        </p>-->
-<!--    </div>-->
     <div th:if="${weather != null}" class="mb-3">
         <p>
             <strong>Weather forecast for</strong>
-            <strong th:text="${#temporals.format(selectedDate, 'dd MMM yyyy')}"></strong>
+            <strong th:text="${#temporals.format(selectedDate, 'dd MMM yyyy', T(java.util.Locale).ENGLISH)}"></strong>
             <br/>
 
             <strong th:text="${weather.city}"></strong><br/>
@@ -138,7 +38,6 @@
         </p>
     </div>
 
-    <!-- ================= STEP 1: SELECT TRAINER + DATE ================= -->
     <form th:action="@{/customer/book}" method="get">
 
         <div class="mb-3">
@@ -164,9 +63,6 @@
         <button type="submit">Check Availability</button>
     </form>
 
-    <hr/>
-
-    <!-- ================= AVAILABLE SLOTS ================= -->
     <div th:if="${availabilities != null}">
 
         <h3>Available Time Slots</h3>
@@ -186,7 +82,6 @@
                 </strong>
             </p>
 
-            <!-- ================= BOOK THIS SLOT ================= -->
             <form th:action="@{/customer/book}" method="post">
 
                 <input type="hidden" name="trainerId" th:value="${a.trainerId}"/>
@@ -199,15 +94,6 @@
     </div>
 
     <hr/>
-
-    <!-- ================= WEATHER CHECK ================= -->
-<!--    <h3>Check Weather (Outdoor Training)</h3>-->
-
-<!--    <form th:action="@{/customer/book}" method="get">-->
-<!--        <label>Date:</label>-->
-<!--        <input type="date" name="date" required/>-->
-<!--        <button type="submit">Check Weather</button>-->
-<!--    </form>-->
 
     <br/>
 

@@ -44,6 +44,11 @@
                       method="post">
                     <button type="submit">Reject</button>
                 </form>
+
+                <br>
+
+                <a th:href="@{/trainer/customers/{id}(id=${a.customer.id})}">View Customer Goal and Progress</a>
+
             </td>
         </tr>
     </table>

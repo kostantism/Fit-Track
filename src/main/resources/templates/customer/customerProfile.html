@@ -15,35 +15,38 @@
     </h1>
 </header>
 
-<section layout:fragment="main">
+    <section layout:fragment="main">
 
-    <h2>Manage Profile</h2>
+        <h2>Manage Profile</h2>
 
-    <form th:action="@{/customer/customerProfile}" method="post">
+        <form th:action="@{/customer/customerProfile}" method="post">
 
-        <label>Fitness goal</label>
-        <select name="goal">
-            <option th:each="g : ${goals}"
-                    th:value="${g}"
-                    th:text="${g}"
-                    th:selected="${g == profile.goal}">
-            </option>
-        </select>
+            <label>Fitness goal</label>
+            <select name="goal">
+                <option th:each="g : ${goals}"
+                        th:value="${g}"
+                        th:text="${g}"
+                        th:selected="${g == profile.goal}">
+                </option>
+            </select>
+
+            <br/><br/>
+
+            <label>Notes</label><br/>
+            <textarea name="notes"
+                      rows="5"
+                      cols="50"
+                      th:text="${profile.notes}">
+            </textarea>
+
+            <br/><br/>
+
+            <button type="submit">Save profile</button>
+        </form>
 
         <br/><br/>
 
-        <label>Notes</label><br/>
-        <textarea name="notes"
-                  rows="5"
-                  cols="50"
-                  th:text="${profile.notes}">
-        </textarea>
-
-        <br/><br/>
-
-        <button type="submit">Save profile</button>
-    </form>
-
+        <a th:href="@{/profile}">← Back to Profile</a>
     </section>
 </body>
 </html>
