@@ -49,8 +49,6 @@ public class PersonBusinessLogicServiceImpl implements PersonBusinessLogicServic
         final String mobilePhoneNumber = createPersonRequest.mobilePhoneNumber().strip();
         final String rawPassword = createPersonRequest.rawPassword();
 
-        //TODO email must be unique
-        //TODO phone number must be unique
 
         final String hashedPassword = passwordEncoder.encode(rawPassword);
 
