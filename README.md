@@ -54,6 +54,9 @@ Navigate to the DS-Lab-NOC-main project directory
 Run the NOC service (Spring Boot application)
 
 ```shell
+  $Env:SENDGRID_API_KEY="Your-SendGrid-API-Key"
+  $Env:SENDGRID_EMAIL="Your-SendGrid-Email"
+
   ./mvnw spring-boot:run  # MacOS / Linux
   ./mvnw.cmd spring-boot:run  # Windows
 ```
