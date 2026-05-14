@@ -43,9 +43,9 @@ Swagger / OpenAPI documentation is available at:
 
 http://localhost:8080/swagger-ui.html
 
-# External Services (DS-Lab-NOC-main – SMS & Email)
+# External Services (Fit-Track-external-services – SMS & Email)
 
-SMS and Email (mock) notifications are handled by an external service (DS-Lab-NOC-main).
+SMS and Email notifications are handled by an external service (Fit-Track-external-services).
 
 To enable notifications:
 
