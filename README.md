@@ -95,7 +95,7 @@ SMS and Email notifications are handled by an external service (Fit-Track-extern
 
 To enable notifications:
 
-Navigate to the DS-Lab-NOC-main project directory
+Navigate to the Fit-Track-external-services project directory
 
 Run the NOC service (Spring Boot application)
 
